@@ -7,16 +7,17 @@ public class canonTank : MonoBehaviour {
     [SerializeField]
     protected float m_Speed;
     [SerializeField]
+    protected float m_Gravity;
+    [SerializeField]
     protected GameObject m_BulletPrefab;
 
     protected Vector3 m_ShotAcceleration;
-
-    private Vector3 m_ShotVelocity;
+    protected Vector3 m_ShotGravity;
+    protected Vector3 m_ShotVelocity;
 
     private void Start()
     {
-        m_ShotVelocity = new Vector3(m_Speed, 0f, 0f);
-        m_ShotAcceleration = new Vector3(m_Acceleration, 0f, 0f);
+        m_ShotGravity = new Vector3(0f, -m_Gravity, 0f);
     }
 
     void Update () {
@@ -31,6 +32,9 @@ public class canonTank : MonoBehaviour {
         bulletTank bulletObject = Instantiate(m_BulletPrefab).GetComponent<bulletTank>();
         bulletObject.transform.SetParent(null);
         bulletObject.name = m_BulletPrefab.name;
+        m_ShotVelocity = transform.forward * m_Speed;
+        m_ShotAcceleration = transform.forward * m_Acceleration;
+        m_ShotAcceleration += m_ShotGravity;
         bulletObject.shootBullet(m_ShotVelocity, m_ShotAcceleration, transform.position, transform.rotation);
     }
 }

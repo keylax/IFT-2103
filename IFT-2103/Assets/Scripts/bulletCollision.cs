@@ -37,16 +37,16 @@ public class bulletCollision : MonoBehaviour {
          Vector3 wallForwardOrientation = _gameObject.transform.forward;
          Vector3 wallRightOrientation = _gameObject.transform.right;
 
-         float halfX = _gameObject.transform.localScale.x;
-         float halfY = _gameObject.transform.localScale.y;
-         float halfZ = _gameObject.transform.localScale.z;
-         Vector3 distanceBetweenTankAndWall = transform.position - gameObjCenter;
+         float halfX = _gameObject.transform.localScale.x / 2;
+         float halfY = _gameObject.transform.localScale.y / 2;
+         float halfZ = _gameObject.transform.localScale.z / 2;
+         Vector3 distanceBetweenBulletAndWall = transform.position - gameObjCenter;
 
          //Start result at center of box and make steps from there
          closestPoint = gameObjCenter;
 
          //Along the axis of d from the center
-         float dist = Vector3.Dot(distanceBetweenTankAndWall, wallUpOrientation);
+         float dist = Vector3.Dot(distanceBetweenBulletAndWall, wallUpOrientation);
          //If distance farther than the box extents, clamp to the box
          if (dist > halfY) dist = halfY;
          if (dist < -halfY) dist = -halfY;
@@ -54,13 +54,13 @@ public class bulletCollision : MonoBehaviour {
          closestPoint += dist * wallUpOrientation;
 
          //Repeat for other axis
-         dist = Vector3.Dot(distanceBetweenTankAndWall, wallForwardOrientation);
+         dist = Vector3.Dot(distanceBetweenBulletAndWall, wallForwardOrientation);
          if (dist > halfZ) dist = halfZ;
          if (dist < -halfZ) dist = -halfZ;
 
          closestPoint += dist * wallForwardOrientation;
 
-         dist = Vector3.Dot(distanceBetweenTankAndWall, wallRightOrientation);
+         dist = Vector3.Dot(distanceBetweenBulletAndWall, wallRightOrientation);
          if (dist > halfX) dist = halfX;
          if (dist < -halfX) dist = -halfX;
 

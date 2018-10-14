@@ -28,45 +28,47 @@ public class bulletCollision : MonoBehaviour {
         Debug.Log("right: " + _gameObject.transform.right);
         Debug.Log(closestPoint);*/
         Debug.DrawLine(transform.position, closestPoint, Color.green);
-    
     }
 
     Vector3 closestPointToBullet(GameObject _gameObject) {
         Vector3 closestPoint;
-        Vector3 gameObjCenter = _gameObject.transform.position;
-        Vector3 wallUpOrientation = _gameObject.transform.up;
-        Vector3 wallForwardOrientation = _gameObject.transform.forward;
-        Vector3 wallRightOrientation = _gameObject.transform.right;
+         Vector3 gameObjCenter = _gameObject.transform.position;
+         Vector3 wallUpOrientation = _gameObject.transform.up;
+         Vector3 wallForwardOrientation = _gameObject.transform.forward;
+         Vector3 wallRightOrientation = _gameObject.transform.right;
 
-        float halfX = _gameObject.GetComponent<Renderer>().bounds.size.x;
-        float halfY = _gameObject.GetComponent<Renderer>().bounds.size.y;
-        float halfZ = _gameObject.GetComponent<Renderer>().bounds.size.z;
-        Vector3 distanceBetweenTankAndWall = transform.position - gameObjCenter;
+         float halfX = _gameObject.transform.localScale.x;
+         float halfY = _gameObject.transform.localScale.y;
+         float halfZ = _gameObject.transform.localScale.z;
+         Vector3 distanceBetweenTankAndWall = transform.position - gameObjCenter;
 
-        //Start result at center of box and make steps from there
-        closestPoint = gameObjCenter;
+         //Start result at center of box and make steps from there
+         closestPoint = gameObjCenter;
 
-        //Along the axis of d from the center
-        float dist = Vector3.Dot(distanceBetweenTankAndWall, wallUpOrientation);
-        //If distance farther than the box extents, clamp to the box
-        if (dist > halfY) dist = halfY;
-        if (dist < -halfY) dist = -halfY;
+         //Along the axis of d from the center
+         float dist = Vector3.Dot(distanceBetweenTankAndWall, wallUpOrientation);
+         //If distance farther than the box extents, clamp to the box
+         if (dist > halfY) dist = halfY;
+         if (dist < -halfY) dist = -halfY;
 
-        closestPoint += dist * wallUpOrientation;
+         closestPoint += dist * wallUpOrientation;
 
-        //Repeat for other axis
-        dist = Vector3.Dot(distanceBetweenTankAndWall, wallForwardOrientation);
-        if (dist > halfZ) dist = halfZ;
-        if (dist < -halfZ) dist = -halfZ;
+         //Repeat for other axis
+         dist = Vector3.Dot(distanceBetweenTankAndWall, wallForwardOrientation);
+         if (dist > halfZ) dist = halfZ;
+         if (dist < -halfZ) dist = -halfZ;
 
-        closestPoint += dist * wallForwardOrientation;
+         closestPoint += dist * wallForwardOrientation;
 
-        dist = Vector3.Dot(distanceBetweenTankAndWall, wallRightOrientation);
-        if (dist > halfX) dist = halfX;
-        if (dist < -halfX) dist = -halfX;
+         dist = Vector3.Dot(distanceBetweenTankAndWall, wallRightOrientation);
+         if (dist > halfX) dist = halfX;
+         if (dist < -halfX) dist = -halfX;
 
-        closestPoint += dist * wallRightOrientation;
+         closestPoint += dist * wallRightOrientation;
 
-        return closestPoint;
+         return closestPoint;
+
+        //return _gameObject.GetComponent<BoxCollider>().ClosestPoint(transform.position);
+
     }
 }

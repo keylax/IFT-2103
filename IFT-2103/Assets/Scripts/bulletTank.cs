@@ -1,22 +1,35 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class bulletTank : MonoBehaviour
 {
     protected Vector3 m_BulletAcceleration;
 
     private Vector3 m_BulletVelocity;
-    private GameObject[] obstacles;
+    private List<GameObject> obstacles;
+    private GameObject[] walls;
+    private GameObject plane;
+    private bool colliding;
 
     private void Start()
     {
-        obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+        colliding = false;
+        plane = GameObject.FindGameObjectWithTag("Plane");
+        walls = GameObject.FindGameObjectsWithTag("Obstacle");
+        obstacles = new List<GameObject>();
+        obstacles.Add(plane);
+        foreach (GameObject wall in walls)
+            obstacles.Add(wall);
     }
 
     void Update()
     {
+        if (!colliding)
+            checkCollisionsAPriori();
         transform.position += m_BulletVelocity + 0.5f * m_BulletAcceleration * Time.deltaTime * Time.deltaTime;
         m_BulletVelocity += m_BulletAcceleration * Time.deltaTime;
-        checkCollisionsWithObstacles();
+        if (!colliding)
+            checkCollisionsAPosteriori();
     }
 
     public void shootBullet(Vector3 p_BulletVelocity, Vector3 p_BulletAcceleration, Vector3 p_StartPosition, Quaternion p_StartRotation)
@@ -26,7 +39,7 @@ public class bulletTank : MonoBehaviour
         transform.position = p_StartPosition;
     }
 
-    private void checkCollisionsWithObstacles()
+    private void checkCollisionsAPosteriori()
     {
         foreach (GameObject gameObj in obstacles)
         {
@@ -34,22 +47,46 @@ public class bulletTank : MonoBehaviour
         }
     }
 
+    private void checkCollisionsAPriori()
+    {
+        //TODO collision a priori
+    }
+
     private void checkCollisionWith(GameObject _gameObject)
     {
         Vector3 closestPoint = closestPointToBullet(_gameObject);
-
         float distanceToClosestPoint = Vector3.Distance(transform.position, closestPoint);
-        float bulletRadius = GetComponent<Renderer>().bounds.extents.magnitude;
-
-        if (distanceToClosestPoint < bulletRadius)
-            bulletHitAWall(_gameObject);        
+        float bulletRadius = GetComponent<Renderer>().bounds.extents.magnitude / 2;
+        Debug.DrawLine(transform.position, closestPoint, Color.blue);
+        if (distanceToClosestPoint < bulletRadius || distanceToClosestPoint < 0)
+        {
+            colliding = true;
+            bulletHitAWall(_gameObject, closestPoint);
+        } else if (distanceToClosestPoint > 1)
+        {
+            colliding = false;
+        }
     }
 
-    private void bulletHitAWall(GameObject _wallHit)
+    private void bulletHitAWall(GameObject _wallHit, Vector3 _hit)
     {
-        //Code qui gère la colision entre un balle et un mur / un autre gameObject physique.
         //TODO faire rebondir la balle
-        Destroy(gameObject);
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, _hit);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Vector3 newVelocity;
+            Vector3 surfaceNormal = hit.normal;
+            float NdotV = Vector3.Dot(surfaceNormal, m_BulletVelocity);
+            float twoNdotV = 2 * NdotV;
+            Vector3 twoNdotVN = twoNdotV * surfaceNormal;
+            Vector3 velocityminustwodotVN = m_BulletVelocity - twoNdotVN;
+
+            newVelocity = 0.5f * (velocityminustwodotVN);
+            m_BulletAcceleration = m_BulletAcceleration * 0.5f;
+            m_BulletVelocity = newVelocity;
+        }
     }
 
     private Vector3 closestPointToBullet(GameObject _gameObject)

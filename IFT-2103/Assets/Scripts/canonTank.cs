@@ -14,6 +14,8 @@ public class canonTank : MonoBehaviour {
     protected Vector3 m_ShotAcceleration;
     protected Vector3 m_ShotGravity;
     protected Vector3 m_ShotVelocity;
+    private float fireRate = 0.5f;
+    private float lastShot = 0.0f;
 
     private void Start()
     {
@@ -29,12 +31,16 @@ public class canonTank : MonoBehaviour {
 
     public void Fire()
     {
-        bulletTank bulletObject = Instantiate(m_BulletPrefab).GetComponent<bulletTank>();
-        bulletObject.transform.SetParent(null);
-        bulletObject.name = m_BulletPrefab.name;
-        m_ShotVelocity = transform.forward * m_Speed;
-        m_ShotAcceleration = transform.forward * m_Acceleration;
-        m_ShotAcceleration += m_ShotGravity;
-        bulletObject.shootBullet(m_ShotVelocity, m_ShotAcceleration, transform.position, transform.rotation);
+        if (Time.time > fireRate + lastShot)
+        {
+            bulletTank bulletObject = Instantiate(m_BulletPrefab).GetComponent<bulletTank>();
+            bulletObject.transform.SetParent(null);
+            bulletObject.name = m_BulletPrefab.name;
+            m_ShotVelocity = transform.forward * m_Speed;
+            m_ShotAcceleration = transform.forward * m_Acceleration;
+            m_ShotAcceleration += m_ShotGravity;
+            bulletObject.shootBullet(m_ShotVelocity, m_ShotAcceleration, transform.position, transform.rotation);
+            lastShot = Time.time;
+        }
     }
 }

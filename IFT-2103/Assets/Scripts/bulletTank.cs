@@ -16,7 +16,7 @@ public class bulletTank : MonoBehaviour
     {
         collided = false;
         plane = GameObject.FindGameObjectWithTag("Plane");
-        walls = GameObject.FindGameObjectsWithTag("Obstacle");
+        walls = GameObject.FindGameObjectsWithTag("Target");
         obstacles = new List<GameObject>();
         obstacles.Add(plane);
         foreach (GameObject wall in walls)
@@ -25,8 +25,9 @@ public class bulletTank : MonoBehaviour
 
     void Update()
     {
-        //checkCollisionsAPriori();
-        transform.position += m_BulletVelocity + 0.5f * m_BulletAcceleration * Time.deltaTime;
+        checkCollisionsAPriori();
+        m_BulletVelocity = m_BulletVelocity + 0.5f * m_BulletAcceleration * Time.deltaTime;
+        transform.position += m_BulletVelocity;
         m_BulletVelocity += m_BulletAcceleration * Time.deltaTime;
         checkCollisionsAPosteriori();
     }
@@ -49,7 +50,6 @@ public class bulletTank : MonoBehaviour
 
     private void checkCollisionsAPriori()
     {
-        //TODO collision a priori
         Vector3 futurePosition = transform.position + (transform.forward * (m_BulletVelocity.magnitude * Time.deltaTime));
         foreach (GameObject gameObj in obstacles)
         {
@@ -60,13 +60,13 @@ public class bulletTank : MonoBehaviour
     private void checkCollisionWith(GameObject p_gameObject, Vector3 p_position)
     {
         Vector3 closestPoint = closestPointToBullet(p_gameObject, p_position);
-        float distanceToClosestPoint = Vector3.Distance(p_position, closestPoint);
-        float bulletRadius = GetComponent<Renderer>().bounds.extents.magnitude / 2;
 
         if (p_gameObject.tag == "Plane")
             closestPoint.y = 0;
-        Debug.DrawLine(transform.position, closestPoint, Color.blue);
-        Debug.Log(closestPoint + " is closestpoint on object: " + p_gameObject + " and is at distance: " + distanceToClosestPoint);
+
+        float distanceToClosestPoint = Vector3.Distance(p_position, closestPoint);
+        float bulletRadius = GetComponent<Renderer>().bounds.extents.magnitude / 2;
+
         if (distanceToClosestPoint < bulletRadius)
         {
             if (p_gameObject.tag == "Plane")
@@ -74,32 +74,29 @@ public class bulletTank : MonoBehaviour
                 m_BulletVelocity = m_BulletVelocity * 0;
                 m_BulletAcceleration = m_BulletAcceleration * 0;
                 Destroy(gameObject, 1.0f);
-            } else if (p_gameObject.tag == "Obstacle" && !collided)
+            } else if (p_gameObject.tag == "Target" && !collided)
             {
                 collided = true;
                 bulletHitAWall(p_gameObject, closestPoint);
+                p_gameObject.GetComponent<targetBehaviour>().onCollision();
             }
         }
     }
 
     private void bulletHitAWall(GameObject p_wallHit, Vector3 p_hit)
     {
-        //TODO faire rebondir la balle
         RaycastHit hit;
-        Ray ray = new Ray(tankPosition, transform.position);
-        //Debug.DrawLine(tankPosition, transform.position, Color.green);
+        Ray ray = new Ray(tankPosition, p_hit);
         if (Physics.Raycast(ray, out hit))
         {
             Vector3 newVelocity;
             Vector3 surfaceNormal = hit.normal;
-            Debug.DrawLine(p_hit, hit.normal, Color.red);
             float NdotV = Vector3.Dot(surfaceNormal, m_BulletVelocity);
             float twoNdotV = 2 * NdotV;
             Vector3 twoNdotVN = twoNdotV * surfaceNormal;
             Vector3 velocityminustwodotVN = m_BulletVelocity - twoNdotVN;
 
             newVelocity = 0.5f * (velocityminustwodotVN);
-            m_BulletAcceleration = m_BulletAcceleration * 0.7f;
             m_BulletVelocity = newVelocity;
         }
     }
@@ -116,6 +113,8 @@ public class bulletTank : MonoBehaviour
         float halfY = p_gameObject.transform.localScale.y /2;
         float halfZ = p_gameObject.transform.localScale.z /  2;
         Vector3 distanceBetweenBulletAndTarget = p_bulletPosition - gameObjCenter;
+
+        if (isPointInObstacle(p_bulletPosition, p_gameObject)) return p_bulletPosition;
 
         //Start result at center of box and make steps from there
         closestPoint = gameObjCenter;
@@ -142,5 +141,18 @@ public class bulletTank : MonoBehaviour
         closestPoint += dist * wallRightOrientation;
 
         return closestPoint;
+    }
+
+    private bool isPointInObstacle(Vector3 p_point, GameObject p_obstacle)
+    {
+        float distance = Vector3.Distance(p_point, p_obstacle.transform.position);
+
+        float halfX = (p_obstacle.GetComponent<Renderer>().bounds.size.x * 0.5f);
+        float halfY = (p_obstacle.GetComponent<Renderer>().bounds.size.y * 0.5f);
+        float halfZ = (p_obstacle.GetComponent<Renderer>().bounds.size.z * 0.5f);
+        if (distance < halfX && distance < halfY && distance < halfZ)
+            return true;
+        else
+            return false;
     }
 }

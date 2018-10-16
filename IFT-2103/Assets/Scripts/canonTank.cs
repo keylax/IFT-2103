@@ -11,6 +11,8 @@ public class canonTank : MonoBehaviour {
     [SerializeField]
     protected GameObject m_BulletPrefab;
 
+    protected Vector3 m_StartPosition;
+    protected Vector3 m_CanonOffset;
     protected Vector3 m_ShotAcceleration;
     protected Vector3 m_ShotGravity;
     protected Vector3 m_ShotVelocity;
@@ -35,6 +37,8 @@ public class canonTank : MonoBehaviour {
         m_ShotVelocity = transform.forward * m_Speed;
         m_ShotAcceleration = transform.forward * m_Acceleration;
         m_ShotAcceleration += m_ShotGravity;
-        bulletObject.shootBullet(m_ShotVelocity, m_ShotAcceleration, transform.position, transform.rotation);
+        m_CanonOffset = transform.forward * 2.5f;
+        m_StartPosition = transform.position + m_CanonOffset;
+        bulletObject.shootBullet(m_ShotVelocity, m_ShotAcceleration, m_StartPosition, transform.rotation);
     }
 }

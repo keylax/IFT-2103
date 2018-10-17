@@ -22,8 +22,11 @@ public class moveTank : MonoBehaviour {
 
         //Move tank
         transform.position += transform.forward * forwardMoveAmount * Time.deltaTime;
-
-
-		
 	}
+
+    public void reset()
+    {
+        transform.position = new Vector3(0, 1.5f, 0);
+        transform.eulerAngles = new Vector3(0, 0, 0);
+    }
 }

@@ -35,15 +35,15 @@ public class canonTank : MonoBehaviour {
     {
         if (Time.time > fireRate + lastShot)
         {
-        bulletTank bulletObject = Instantiate(m_BulletPrefab).GetComponent<bulletTank>();
-        bulletObject.transform.SetParent(null);
-        bulletObject.name = m_BulletPrefab.name;
-        m_ShotVelocity = transform.forward * m_Speed;
-        m_ShotAcceleration = transform.forward * m_Acceleration;
-        m_ShotAcceleration += m_ShotGravity;
-        m_CanonOffset = transform.forward * 2.5f;
-        m_StartPosition = transform.position + m_CanonOffset;
-        bulletObject.shootBullet(m_ShotVelocity, m_ShotAcceleration, m_StartPosition, transform.rotation);
+            bulletTank bulletObject = Instantiate(m_BulletPrefab).GetComponent<bulletTank>();
+            bulletObject.transform.SetParent(null);
+            bulletObject.name = m_BulletPrefab.name;
+            m_ShotVelocity = transform.forward * m_Speed;
+            m_ShotAcceleration = transform.forward * m_Acceleration;
+            m_ShotAcceleration += m_ShotGravity;
+            m_CanonOffset = transform.forward * 2.5f;
+            m_StartPosition = transform.position + m_CanonOffset;
+            bulletObject.shootBullet(m_ShotVelocity, m_ShotAcceleration, m_StartPosition, transform.rotation);
         }
     }
 }

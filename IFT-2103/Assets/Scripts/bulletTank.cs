@@ -6,7 +6,6 @@ public class bulletTank : MonoBehaviour
     protected Vector3 m_BulletAcceleration;
 
     private Vector3 m_BulletVelocity;
-    private Vector3 tankPosition;
     private List<GameObject> obstacles;
     private GameObject[] targets;
     private GameObject plane;
@@ -38,7 +37,6 @@ public class bulletTank : MonoBehaviour
         m_BulletVelocity = p_BulletVelocity;
         m_BulletAcceleration = p_BulletAcceleration;
         transform.position = p_StartPosition;
-        tankPosition = p_StartPosition;
     }
 
     private void checkCollisionsAPosteriori()

@@ -92,12 +92,12 @@ public class bulletTank : MonoBehaviour
         else if (p_collisionObject.tag == "Target" && !collided)
         {
             collided = true;
-            bulletHitAWall(p_collisionObject, p_pointOfCollision);
+            bulletHitTarget(p_collisionObject, p_pointOfCollision);
             p_collisionObject.GetComponent<targetBehaviour>().onCollision();
         }
     }
 
-    private void bulletHitAWall(GameObject p_wallHit, Vector3 p_hit)
+    private void bulletHitTarget(GameObject p_wallHit, Vector3 p_hit)
     {
         RaycastHit hit;
         Ray ray = new Ray(transform.position, p_hit);

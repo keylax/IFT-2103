@@ -12,11 +12,7 @@ public class shootTank : MonoBehaviour {
         if (Input.GetButtonDown("Jump"))
         {
             GameObject bulletInstance = (GameObject)Instantiate(bullet, transform.position, shootPosition.rotation);
-            // Add velocity to the bullet
             bulletInstance.GetComponent<Rigidbody>().velocity = bulletInstance.transform.forward * shootForce;
-
-            // Destroy the bullet after 2 seconds
-            Destroy(bulletInstance, 2.0f);
         }
     }
 }

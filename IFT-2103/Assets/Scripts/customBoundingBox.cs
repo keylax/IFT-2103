@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-
 public class customBoundingBox : MonoBehaviour
 {
-    private Vector3 center;
     private Vector3 min;
     private Vector3 max;
     private Vector3[] pts = new Vector3[8];
@@ -16,8 +14,6 @@ public class customBoundingBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        center = transform.position;
         min = GetComponent<Renderer>().bounds.min;
         max = GetComponent<Renderer>().bounds.max;
         pts[0] = min;

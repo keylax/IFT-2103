@@ -30,6 +30,12 @@ public class gameManagerBehaviour : MonoBehaviour {
             {
                 targetsBehaviours[i].reset();
             }
+
+            GameObject[] shotBullets = GameObject.FindGameObjectsWithTag("Bullet");
+
+            for (var i = 0; i < shotBullets.Length; i++)
+                Destroy(shotBullets[i]);
+
             player.GetComponent<moveTank>().reset();
         }
     }

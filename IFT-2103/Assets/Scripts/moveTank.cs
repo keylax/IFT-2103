@@ -2,10 +2,12 @@
 
 public class moveTank : MonoBehaviour {
 
-    float forwardRate = 15;
-    float turnRate = 3;
+    float forwardRate = 10;
+    float turnRate = 1;
     bool collidingFront = false;
     bool collidingBack = false;
+    bool collidingLeft = false;
+    bool collidingRight = false;
     float forwardMoveAmount;
     float turnForce;
 
@@ -25,14 +27,14 @@ public class moveTank : MonoBehaviour {
         transform.Rotate(0, turnForce, 0);
 
         //Move tank
-        if ((collidingFront && forwardMoveAmount < 0) || (collidingBack && forwardMoveAmount > 0) || (!collidingBack && !collidingFront)){
+        if ((collidingFront && forwardMoveAmount < 0) || (collidingBack && forwardMoveAmount > 0) || (!collidingBack && !collidingFront && !collidingLeft && !collidingRight)){
             transform.position += transform.forward * forwardMoveAmount * Time.deltaTime;
         }
 	}
 
     public void reset()
     {
-        transform.position = new Vector3(0, 1.5f, 0);
+        transform.position = new Vector3(17, 0.7f, -10);
         transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
@@ -50,5 +52,15 @@ public class moveTank : MonoBehaviour {
     public void collisionInBack()
     {
         collidingBack = true;
+    }
+
+    public void collisionAtLeft()
+    {
+        collidingLeft = true;
+    }
+
+    public void collisionAtRight()
+    {
+        collidingRight = true;
     }
 }

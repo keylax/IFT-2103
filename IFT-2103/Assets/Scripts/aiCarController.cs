@@ -13,13 +13,15 @@ public class aiCarController : MonoBehaviour {
     public WheelCollider rearRightWheel;
     public float maxMotorTorque = 300f;
     public float maxBrakeTorque = 600f;
+    public float maxSpeed = 100f;
+    public float currentSpeed;
     public bool isBraking = false;
 
     private List<Transform> nodes;
     private int currectNode = 0;
 
     [Header("CollisionDetectors")]
-    public float detectionRaycastsLength = 100f;
+    public float detectionRaycastsLength = 25;
     public Vector3 frontDetectorPos = new Vector3(0f, 0.5f, 2f);
     public float frontSideDetectorPos = 2f;
     private bool avoiding = false;
@@ -37,27 +39,11 @@ public class aiCarController : MonoBehaviour {
 	
 	private void FixedUpdate () {
         checkCollisions();
-        //test();
         steer();
         drive();
         checkCurrentWaypoint();
         braking();
 	}
-
-    private void test()
-    {
-        RaycastHit hit;
-        Vector3 test = transform.position;
-        test += transform.forward * 2f;
-        if (Physics.Raycast(test, transform.forward, out hit, 10))
-        {
-            if (hit.collider.CompareTag("Obstacle"))
-            {
-                Debug.Log("Hit");
-                Debug.DrawLine(test, hit.point);
-            }
-        }
-    }
 
     private void steer() {
         if (avoiding) return;
@@ -69,10 +55,17 @@ public class aiCarController : MonoBehaviour {
     }
 
     private void drive() {
-        if (!isBraking)
+        currentSpeed = 2 * Mathf.PI * frontLeftWheel.radius * frontLeftWheel.rpm * 60 / 1000;
+
+        if (currentSpeed < maxSpeed && !isBraking)
         {
             frontLeftWheel.motorTorque = maxMotorTorque;
             frontRightWheel.motorTorque = maxMotorTorque;
+        }
+        else
+        {
+            frontLeftWheel.motorTorque = 0;
+            frontRightWheel.motorTorque = 0;
         }
     }
 
@@ -97,8 +90,6 @@ public class aiCarController : MonoBehaviour {
         float avoidMultiplier = 0;
         avoiding = false;
 
-
-        //front right sensor
         if (Physics.Raycast(detectorStartingPos, transform.forward, out hit, detectionRaycastsLength))
         {
             if (hit.collider.CompareTag("Obstacle"))
@@ -108,7 +99,16 @@ public class aiCarController : MonoBehaviour {
                 avoidMultiplier -= 1f;
             }
         }
-        if (Physics.Raycast(detectorStartingPos, Quaternion.AngleAxis(30, transform.up) * transform.forward, out hit, detectionRaycastsLength))
+        else if (Physics.Raycast(detectorStartingPos, Quaternion.AngleAxis(15, transform.up) * transform.forward, out hit, detectionRaycastsLength))
+        {
+            if (hit.collider.CompareTag("Obstacle"))
+            {
+                Debug.DrawLine(detectorStartingPos, hit.point);
+                avoiding = true;
+                avoidMultiplier -= 0.5f;
+            }
+        }
+        else if (Physics.Raycast(detectorStartingPos, Quaternion.AngleAxis(30, transform.up) * transform.forward, out hit, detectionRaycastsLength))
         {
             if (hit.collider.CompareTag("Obstacle"))
             {
@@ -118,7 +118,6 @@ public class aiCarController : MonoBehaviour {
             }
         }
 
-        //front left sensor
         if (Physics.Raycast(detectorStartingPos, transform.forward, out hit, detectionRaycastsLength))
         {
             if (hit.collider.CompareTag("Obstacle"))
@@ -128,7 +127,16 @@ public class aiCarController : MonoBehaviour {
                 avoidMultiplier += 1f;
             }
         }
-        if (Physics.Raycast(detectorStartingPos, Quaternion.AngleAxis(-30, transform.up) * transform.forward, out hit, detectionRaycastsLength))
+        else if (Physics.Raycast(detectorStartingPos, Quaternion.AngleAxis(-15, transform.up) * transform.forward, out hit, detectionRaycastsLength))
+        {
+            if (hit.collider.CompareTag("Obstacle"))
+            {
+                Debug.DrawLine(detectorStartingPos, hit.point);
+                avoiding = true;
+                avoidMultiplier += 0.5f;
+            }
+        }
+        else if (Physics.Raycast(detectorStartingPos, Quaternion.AngleAxis(-30, transform.up) * transform.forward, out hit, detectionRaycastsLength))
         {
             if (hit.collider.CompareTag("Obstacle"))
             {
@@ -138,7 +146,6 @@ public class aiCarController : MonoBehaviour {
             }
         }
 
-        //front center sensor
         if (avoidMultiplier == 0)
         {
             if (Physics.Raycast(detectorStartingPos, transform.forward, out hit, detectionRaycastsLength))

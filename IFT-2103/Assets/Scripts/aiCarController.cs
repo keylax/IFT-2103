@@ -13,8 +13,6 @@ public class aiCarController : MonoBehaviour {
     public WheelCollider rearRightWheel;
     public float maxMotorTorque = 300f;
     public float maxBrakeTorque = 600f;
-    public float maxSpeed = 100f;
-    public float currentSpeed;
     public bool isBraking = false;
 
     private List<Transform> nodes;
@@ -55,17 +53,10 @@ public class aiCarController : MonoBehaviour {
     }
 
     private void drive() {
-        currentSpeed = 2 * Mathf.PI * frontLeftWheel.radius * frontLeftWheel.rpm * 60 / 1000;
-
-        if (currentSpeed < maxSpeed && !isBraking)
+        if (!isBraking)
         {
             frontLeftWheel.motorTorque = maxMotorTorque;
             frontRightWheel.motorTorque = maxMotorTorque;
-        }
-        else
-        {
-            frontLeftWheel.motorTorque = 0;
-            frontRightWheel.motorTorque = 0;
         }
     }
 

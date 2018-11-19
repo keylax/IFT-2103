@@ -2,7 +2,7 @@
 
 public class raceManager : MonoBehaviour {
 
-    public GameObject player;
+    public GameObject allCars;
 
     // Use this for initialization
     void Start () {
@@ -13,7 +13,17 @@ public class raceManager : MonoBehaviour {
     {
         if(trigger.tag == "Player")
         {
-            player.GetComponent<carController>().reset();
+            for (int i = 0; i < allCars.transform.childCount; i++)
+            {
+                if (allCars.transform.GetChild(i).GetComponent<aiCarController>())
+                {
+                    allCars.transform.GetChild(i).GetComponent<aiCarController>().reset();
+                }
+                else if (allCars.transform.GetChild(i).GetComponent<carController>())
+                {
+                    allCars.transform.GetChild(i).GetComponent<carController>().reset();
+                }
+            }
         }
     }
 }

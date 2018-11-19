@@ -24,6 +24,8 @@ public class aiCarController : MonoBehaviour {
     public float frontSideDetectorPos = 2f;
     private bool avoiding = false;
 
+    private Vector3 initialPosition;
+
     private void Start () {
         Transform[] pathTransforms = path.GetComponentsInChildren<Transform>();
         nodes = new List<Transform>();
@@ -33,9 +35,28 @@ public class aiCarController : MonoBehaviour {
                 nodes.Add(pathTransforms[i]);
             }
         }
+
+        initialPosition = transform.position;
     }
-	
-	private void FixedUpdate () {
+
+    public void reset()
+    {
+
+
+        frontLeftWheel.steerAngle = 0;
+        frontRightWheel.steerAngle = 0;
+        frontLeftWheel.motorTorque = 0;
+        frontRightWheel.motorTorque = 0;
+        rearLeftWheel.motorTorque = 0;
+        rearLeftWheel.motorTorque = 0;
+
+        transform.position = initialPosition;
+        transform.eulerAngles = new Vector3(0, 90, 0);
+
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    private void FixedUpdate () {
         checkCollisions();
         steer();
         drive();

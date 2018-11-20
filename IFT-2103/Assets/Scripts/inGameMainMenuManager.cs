@@ -17,10 +17,6 @@ public class inGameMainMenuManager : MonoBehaviour
     {
         yield return null;
 
-        SceneManager.LoadScene(sceneIndex);
-
-        SceneManager.LoadScene(sceneIndex);
-
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
 
 

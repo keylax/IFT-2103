@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class mainMenuManager : MonoBehaviour {
     public GameObject loadingScreen;
     public Slider slider;
-    public Text progressText;
 
     public void LoadLevel(int sceneIndex)
     {
@@ -26,7 +25,6 @@ public class mainMenuManager : MonoBehaviour {
             new WaitForSeconds(1);
             float progress = Mathf.Clamp01(operation.progress / .9f);
 
-            progressText.text = progress * 100f + "%";
             slider.value = progress;
 
             yield return null;

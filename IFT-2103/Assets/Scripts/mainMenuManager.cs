@@ -33,6 +33,7 @@ public class mainMenuManager : MonoBehaviour {
 
     public void PlayOfflineGame()
     {
+        GameParameters.setGameMode(GameMode.VERSUS_AI);
         LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

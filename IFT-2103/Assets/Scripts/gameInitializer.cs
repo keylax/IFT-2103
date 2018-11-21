@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts;
+using Assets.Scripts.Controls;
 
 public class gameInitializer : MonoBehaviour {
-    //Pour ne pas etre obligé de passer par le menu à chaque fois que je veux tester la scene. À ENLEVER
+    //Pour ne pas etre obligé d'avoir tous le menu d'implémenter pour tester la scene. À ENLEVER
     //########################################################################################
     private GameMode debugGameMode = GameMode.OFFLINE_MP;
+    //Les controls vont venir de gameparameters après avoir été set à partir du menu
+    private ControlScheme player1ControlScheme = new WASDControls();
+    private ControlScheme player2ControlScheme = new ArrowsControls();
     //########################################################################################
 
     public Transform allCars;
@@ -58,9 +63,11 @@ public class gameInitializer : MonoBehaviour {
     private void initializeOfflineMP()
     {
         Transform player1Car = instanciatePlayer(playerPrefab, spawnPoint1.position);
+        player1Car.GetComponent<carController>().setControls(player1ControlScheme);
         Transform player1Camera = instanciateCamera(player1Car);
 
         Transform player2Car = instanciatePlayer(playerPrefab, spawnPoint2.position);
+        player2Car.GetComponent<carController>().setControls(player2ControlScheme);
         Transform player2Camera = instanciateCamera(player2Car);
 
         splitScreen(player1Camera, player2Camera);

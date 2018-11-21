@@ -155,8 +155,6 @@ GameObject:
   - component: {fileID: 4564821817292008}
   - component: {fileID: 54969574152202258}
   - component: {fileID: 114161737528675660}
-  - component: {fileID: 114460311385620506}
-  - component: {fileID: 114590816765988948}
   m_Layer: 0
   m_Name: BasicCarRed
   m_TagString: Player
@@ -578,59 +576,6 @@ MonoBehaviour:
     steering: 0
   maxMotorTorque: 400
   maxSteeringAngle: 20
---- !u!114 &114460311385620506
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1978990440719460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 231
-    i1: 60
-    i2: 159
-    i3: 244
-    i4: 225
-    i5: 144
-    i6: 165
-    i7: 244
-    i8: 186
-    i9: 27
-    i10: 63
-    i11: 183
-    i12: 200
-    i13: 230
-    i14: 226
-    i15: 239
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
---- !u!114 &114590816765988948
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1978990440719460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 2
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!146 &146581381440209308
 WheelCollider:
   m_ObjectHideFlags: 1

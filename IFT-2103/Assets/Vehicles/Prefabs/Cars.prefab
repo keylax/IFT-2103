@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4826273343654302}
-  - component: {fileID: 114515786433707870}
   m_Layer: 0
   m_Name: Cars
   m_TagString: Untagged
@@ -606,38 +605,6 @@ MonoBehaviour:
     steering: 0
   maxMotorTorque: 400
   maxSteeringAngle: 20
---- !u!114 &114515786433707870
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1042644211833988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 251
-    i1: 246
-    i2: 245
-    i3: 191
-    i4: 59
-    i5: 162
-    i6: 220
-    i7: 164
-    i8: 234
-    i9: 191
-    i10: 97
-    i11: 16
-    i12: 252
-    i13: 104
-    i14: 224
-    i15: 66
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!146 &146240853833279528
 WheelCollider:
   m_ObjectHideFlags: 1

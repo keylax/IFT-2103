@@ -11,7 +11,7 @@ public class raceManager : MonoBehaviour {
 
     public void OnTriggerEnter(Collider trigger)
     {
-        if(trigger.tag == "Player")
+        if (trigger.tag == "Player")
         {
             player.GetComponent<carController>().reset();
         }

@@ -37,6 +37,12 @@ public class mainMenuManager : MonoBehaviour {
         LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void PlayOfflineMPGame()
+    {
+        GameParameters.setGameMode(GameMode.OFFLINE_MP);
+        LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
     public void QuitGame()
     {
         Application.Quit();

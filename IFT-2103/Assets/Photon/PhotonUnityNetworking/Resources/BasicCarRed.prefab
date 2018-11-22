@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 54969574152202258}
   - component: {fileID: 114161737528675660}
   - component: {fileID: 114684903197965394}
+  - component: {fileID: 114698102490065718}
   m_Layer: 0
   m_Name: BasicCarRed
   m_TagString: Player
@@ -591,13 +592,27 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 114698102490065718}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &114698102490065718
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1978990440719460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!146 &146581381440209308
 WheelCollider:
   m_ObjectHideFlags: 1

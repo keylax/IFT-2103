@@ -10,11 +10,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     string gameVersion = "1";
     [SerializeField]
     private byte maxPlayersPerRoom = 4;
-
+    public Transform SpawnerHost;
+    public Transform SpawnerClient;
     private string roomName = "room 1";
     private string VERSION = "v.0.0.1";
     public string player = "BasicCarRed";
-    public Transform spawn;
+    public GameObject Cars;
+    private int players = 0;
 
     // Use this for initialization
     void Start () {
@@ -34,6 +36,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     {
         if (PhotonNetwork.IsConnected)
         {
+            Debug.Log(PhotonNetwork.EnableLobbyStatistics);
             PhotonNetwork.JoinRandomRoom();
         }
         else
@@ -69,22 +72,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
 
         // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+        PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
-        PhotonNetwork.Instantiate(player, spawn.position, spawn.rotation, 0);
+        GameObject playerCar;
+        if (PhotonNetwork.IsMasterClient == true)
+        {
+            playerCar = PhotonNetwork.Instantiate(player, SpawnerHost.position, SpawnerHost.rotation, 0);
+        }
+        else
+        {
+            playerCar = PhotonNetwork.Instantiate(player, SpawnerClient.position, SpawnerClient.rotation, 0);
+        }
+        var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<cameraFollow>();
+        camera.target = playerCar.transform;
+        playerCar.transform.parent = Cars.transform;
     }
 
-    public override void OnJoinedLobby()
-    {
-        base.OnJoinedLobby();
-        RoomOptions roomOption = new RoomOptions();
-        roomOption.IsVisible = false;
-        roomOption.MaxPlayers = maxPlayersPerRoom;
-        PhotonNetwork.JoinOrCreateRoom(roomName, roomOption, TypedLobby.Default);
-        Debug.Log("Test pass here");
-    }
 }

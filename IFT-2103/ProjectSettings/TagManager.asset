@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wheel
   - Obstacle
+  - AICar
   layers:
   - Default
   - TransparentFX

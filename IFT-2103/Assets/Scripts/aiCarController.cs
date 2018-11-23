@@ -4,38 +4,57 @@ using System.Collections.Generic;
 
 public class aiCarController : MonoBehaviour {
 
-    public Transform path;
     public Vector3 startingPosition;
-    public float maxSteeringAngle;
     public WheelCollider frontLeftWheel;
     public WheelCollider frontRightWheel;
     public WheelCollider rearLeftWheel;
     public WheelCollider rearRightWheel;
-    public float maxMotorTorque = 300f;
-    public float maxBrakeTorque = 600f;
-    public bool isBraking = false;
 
+    private Transform path;
     private List<Transform> nodes;
     private int currectNode = 0;
-
-    [Header("CollisionDetectors")]
-    public float detectionRaycastsLength = 25;
-    public Vector3 frontDetectorPos = new Vector3(0f, 0.5f, 2f);
-    public float frontSideDetectorPos = 2f;
+    private float maxMotorTorque = 350f;
+    private float maxBrakeTorque = 600f;
+    private float maxSteeringAngle = 45f;
+    private float detectionRaycastsLength = 25;
+    private float frontSideDetectorPos = 2f;
+    private Vector3 frontDetectorPos = new Vector3(0f, 0.5f, 2f);
+    private Vector3 initialPosition;
     private bool avoiding = false;
+    private bool isBraking = false;
 
     private void Start () {
+        path = GameObject.Find("Path").transform;
         Transform[] pathTransforms = path.GetComponentsInChildren<Transform>();
         nodes = new List<Transform>();
 
         for (int i = 0; i < pathTransforms.Length; i++) {
-            if (pathTransforms[i] != path.transform) {
+            if (pathTransforms[i] != path) {
                 nodes.Add(pathTransforms[i]);
             }
         }
+
+        initialPosition = transform.position;
     }
-	
-	private void FixedUpdate () {
+
+    public void reset()
+    {
+
+
+        frontLeftWheel.steerAngle = 0;
+        frontRightWheel.steerAngle = 0;
+        frontLeftWheel.motorTorque = 0;
+        frontRightWheel.motorTorque = 0;
+        rearLeftWheel.motorTorque = 0;
+        rearLeftWheel.motorTorque = 0;
+
+        transform.position = initialPosition;
+        transform.eulerAngles = new Vector3(0, 90, 0);
+
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    private void FixedUpdate () {
         checkCollisions();
         steer();
         drive();

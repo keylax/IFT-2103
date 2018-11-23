@@ -633,10 +633,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: {fileID: 0}
-  maxSteeringAngle: 20
-  leftWheel: {fileID: 146177688262211634}
-  rightWheel: {fileID: 146838190719282870}
-  maxMotorTorque: 250
+  startingPosition: {x: 0, y: 0, z: 0}
+  frontLeftWheel: {fileID: 0}
+  frontRightWheel: {fileID: 0}
+  rearLeftWheel: {fileID: 0}
+  rearRightWheel: {fileID: 0}
 --- !u!146 &146177688262211634
 WheelCollider:
   m_ObjectHideFlags: 1

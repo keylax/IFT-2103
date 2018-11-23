@@ -6,13 +6,6 @@ using Assets.Scripts;
 using Assets.Scripts.Controls;
 
 public class gameInitializer : MonoBehaviour {
-    //Pour ne pas etre obligé d'avoir tous le menu d'implémenter pour tester la scene. À ENLEVER
-    //########################################################################################
-    private GameMode debugGameMode = GameMode.OFFLINE_MP;
-    //Les controls vont venir de gameparameters après avoir été set à partir du menu
-    private ControlScheme player1ControlScheme = new WASDControls();
-    private ControlScheme player2ControlScheme = new ArrowsControls();
-    //########################################################################################
 
     public Transform allCars;
     public GameObject mainMenu;
@@ -54,7 +47,9 @@ public class gameInitializer : MonoBehaviour {
 
     private void initializeVSAI()
     {
+        ControlScheme player1ControlScheme = GameParameters.getPlayerOneControls();
         Transform player1Car = instanciatePlayer(playerPrefab, spawnPoint1.position);
+        player1Car.GetComponent<carController>().setControls(player1ControlScheme);
         Transform player1Camera = instanciateCamera(player1Car);
 
         Transform aiCar = instanciatePlayer(aiPrefab, spawnPoint2.position);
@@ -62,6 +57,9 @@ public class gameInitializer : MonoBehaviour {
     
     private void initializeOfflineMP()
     {
+        ControlScheme player1ControlScheme = GameParameters.getPlayerOneControls();
+        ControlScheme player2ControlScheme = GameParameters.getPlayerTwoControls();
+
         Transform player1Car = instanciatePlayer(playerPrefab, spawnPoint1.position);
         player1Car.GetComponent<carController>().setControls(player1ControlScheme);
         Transform player1Camera = instanciateCamera(player1Car);

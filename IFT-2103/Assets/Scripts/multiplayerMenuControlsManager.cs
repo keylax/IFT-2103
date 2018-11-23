@@ -16,32 +16,76 @@ public class multiplayerMenuControlsManager : MonoBehaviour {
 
     public void setControlsPlayerOneArrows()
     {
-        GameParameters.setPlayerOneControls(new ArrowsControls());
+        if (PlayerOneToggleArrows.isOn)
+        {
+            GameParameters.setPlayerOneControls(new ArrowsControls());
+            if (PlayerTwoToggleArrows.isOn)
+            {
+                PlayerTwoToggleWASD.isOn = true;
+            }
+        }
     }
 
     public void setControlsPlayerOneWASD()
     {
-        GameParameters.setPlayerOneControls(new WASDControls());
+        if (PlayerOneToggleWASD.isOn)
+        {
+            GameParameters.setPlayerOneControls(new WASDControls());
+            if (PlayerTwoToggleWASD.isOn)
+            {
+                PlayerTwoToggleZQSD.isOn = true;
+            }
+        }
     }
 
     public void setControlsPlayerOneZQSD()
     {
-        GameParameters.setPlayerOneControls(new ZQSDControls());
+        if (PlayerOneToggleZQSD.isOn)
+        {
+            GameParameters.setPlayerOneControls(new ZQSDControls());
+            if (PlayerTwoToggleZQSD.isOn)
+            {
+                PlayerTwoToggleArrows.isOn = true;
+            }
+        }
     }
 
     public void setControlsPlayerTwoArrows()
     {
-        GameParameters.setPlayerTwoControls(new ArrowsControls());
+        if (PlayerTwoToggleArrows.isOn)
+        {
+            GameParameters.setPlayerTwoControls(new ArrowsControls());
+            if (PlayerOneToggleArrows.isOn)
+            {
+                PlayerOneToggleWASD.isOn = true;
+            }
+        }
+
     }
 
     public void setControlsPlayerTwoWASD()
     {
-        GameParameters.setPlayerTwoControls(new WASDControls());
+        if (PlayerTwoToggleWASD.isOn)
+        {
+            GameParameters.setPlayerTwoControls(new WASDControls());
+            if (PlayerOneToggleWASD.isOn)
+            {
+                PlayerOneToggleZQSD.isOn = true;
+            }
+        }
+
     }
 
     public void setControlsPlayerTwoZQSD()
     {
-        GameParameters.setPlayerTwoControls(new ZQSDControls());
+        if (PlayerTwoToggleZQSD.isOn)
+        {
+            GameParameters.setPlayerTwoControls(new ZQSDControls());
+            if (PlayerOneToggleZQSD.isOn)
+            {
+                PlayerOneToggleArrows.isOn = true;
+            }
+        }
     }
 
 

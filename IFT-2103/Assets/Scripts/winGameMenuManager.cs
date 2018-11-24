@@ -32,13 +32,19 @@ public class winGameMenuManager : MonoBehaviour {
 
     public void RestartRace()
     {
-        PhotonNetwork.Disconnect();
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Disconnect();
+        }
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitRaceToMainMenu()
     {
-        PhotonNetwork.Disconnect();
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Disconnect();
+        }
         LoadLevel(0);
     }
 }

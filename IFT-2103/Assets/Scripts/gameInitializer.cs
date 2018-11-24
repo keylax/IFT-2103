@@ -18,6 +18,7 @@ public class gameInitializer : MonoBehaviour {
 
     public Transform allCars;
     public GameObject mainMenu;
+    public GameObject WaitingForPlayersMenu;
 
     [HeaderAttribute("Spawn Points")]
     public Transform spawnPoint1;
@@ -60,23 +61,25 @@ public class gameInitializer : MonoBehaviour {
     private void initializeVSAI()
     {
         Transform player1Car = instanciatePlayer(playerPrefab, spawnPoint1.position);
-        player1Car.GetComponent<carController>().setControls(player1ControlScheme);
+        player1Car.GetComponent<carController>().SetControls(player1ControlScheme);
         Transform player1Camera = instanciateCamera(player1Car);
 
         Transform aiCar = instanciatePlayer(aiPrefab, spawnPoint2.position);
+        instanciateFinishLine();
     }
     
     private void initializeOfflineMP()
     {
         Transform player1Car = instanciatePlayer(playerPrefab, spawnPoint1.position);
-        player1Car.GetComponent<carController>().setControls(player1ControlScheme);
+        player1Car.GetComponent<carController>().SetControls(player1ControlScheme);
         Transform player1Camera = instanciateCamera(player1Car);
 
         Transform player2Car = instanciatePlayer(playerPrefab, spawnPoint2.position);
-        player2Car.GetComponent<carController>().setControls(player2ControlScheme);
+        player2Car.GetComponent<carController>().SetControls(player2ControlScheme);
         Transform player2Camera = instanciateCamera(player2Car);
 
         splitScreen(player1Camera, player2Camera);
+        instanciateFinishLine();
     }
 
     private void initializeOnlineMP()
@@ -86,15 +89,8 @@ public class gameInitializer : MonoBehaviour {
         // Waiting for players
         // Player connect
         // lancer la partie
-        // Disconnect Room (redemander a Didier)
-        //
+        WaitingForPlayersMenu.SetActive(true);
         GameObject.FindGameObjectWithTag("Network").GetComponent<NetworkManager>().Connect(this);
-
-        /*
-        Transform player1Car = instanciatePlayer(playerPrefab, spawnPoint1.position);
-        player1Car.GetComponent<carController>().setControls(player1ControlScheme);
-        Transform player1Camera = instanciateCamera(player1Car);
-        */
     }
 
     public void instanciateFinishLine()
@@ -105,6 +101,11 @@ public class gameInitializer : MonoBehaviour {
         finishLinePrefab.GetComponent<raceManager>().winRaceCanvas = winRaceCanvas;
         finishLinePrefab.GetComponent<raceManager>().loseRaceCanvas = mainMenu;
         Transform finishLine = Instantiate(finishLinePrefab, finishLinePrefab.position, finishLinePrefab.rotation);
+        if (!PhotonNetwork.IsConnected)
+        {
+            GameObject HUDCanvas = GameObject.Find("HUDCanvas");
+            HUDCanvas.GetComponentInChildren<DelayedStart>().StartRace();
+        }
     }
 
     private void splitScreen(Transform player1Camera, Transform player2Camera) 
@@ -116,7 +117,6 @@ public class gameInitializer : MonoBehaviour {
     public Transform instanciatePlayer(Transform carPrefab, Vector3 spawnPoint)
     {
         Transform playerTransform = playerTransform = Instantiate(carPrefab, spawnPoint, playerPrefab.rotation);
-        //Transform playerTransform = playerTransform = PhotonNetwork.Instantiate(carPrefab, spawnPoint, playerPrefab.rotation);
 
         playerTransform.SetParent(allCars);
         playerTransform.localScale = new Vector3(1, 1, 1);

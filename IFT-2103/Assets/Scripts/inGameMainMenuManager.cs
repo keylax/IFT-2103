@@ -20,8 +20,6 @@ public class inGameMainMenuManager : MonoBehaviour
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
 
-
-
         loadingScreen.SetActive(true);
 
         while (!operation.isDone)
@@ -39,7 +37,10 @@ public class inGameMainMenuManager : MonoBehaviour
 
     public void QuitToMainMenu()
     {
-        PhotonNetwork.Disconnect();
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Disconnect();
+        }
         LoadLevel(0);
     }
 }

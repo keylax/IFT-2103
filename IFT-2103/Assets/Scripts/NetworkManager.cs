@@ -4,22 +4,22 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using Assets.Scripts.Controls;
+using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviourPunCallbacks {
 
     string gameVersion = "1";
     [SerializeField]
-    private byte maxPlayersPerRoom = 4;
+    private byte maxPlayersPerRoom = 2;
     public Transform SpawnerHost;
     public Transform SpawnerClient;
     private string roomName = "room 1";
     private string VERSION = "v.0.0.1";
-    public string player = "BasicCarRed";
-    public Component controls;
+    public string player = "PlayerCar";
     public GameObject Cars;
     public GameObject playerPrefab;
-    private int players = 0;
     private gameInitializer gameInitialize;
+    public GameObject WaitingForPlayersMenu;
 
     // Use this for initialization
     void Start () {
@@ -77,44 +77,43 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
     }
 
-    public int getPlayersConnected()
-    {
-        return players;
-    }
-
     public override void OnJoinedRoom()
     {
         GameObject player1Car;
 
-
         if (PhotonNetwork.IsMasterClient == true)
         {
             player1Car = PhotonNetwork.Instantiate(player, SpawnerHost.position, SpawnerHost.rotation, 0);
-            //player1Car = gameInitialize.instanciatePlayer(playerPrefab.transform, SpawnerHost.position);
-            player1Car.transform.SetParent(Cars.transform);
-            player1Car.GetComponent<carController>().setControls(gameInitialize.getCurrentController());
-            player1Car.GetComponent<carController>().setMainMenu(gameInitialize.mainMenu);
-            gameInitialize.instanciateCamera(player1Car.transform);
         }
         else
         {
             player1Car = PhotonNetwork.Instantiate(player, SpawnerClient.position, SpawnerClient.rotation, 0);
-            //player1Car = gameInitialize.instanciatePlayer(playerPrefab.transform, SpawnerClient.position);
-            player1Car.GetComponent<carController>().setControls(gameInitialize.getCurrentController());
-            player1Car.transform.SetParent(Cars.transform);
-            player1Car.GetComponent<carController>().setMainMenu(gameInitialize.mainMenu);
-            gameInitialize.instanciateCamera(player1Car.transform);
         }
+        player1Car.transform.SetParent(Cars.transform);
+        player1Car.GetComponent<carController>().SetControls(gameInitialize.getCurrentController());
+        player1Car.GetComponent<carController>().SetMainMenu(gameInitialize.mainMenu);
+        gameInitialize.instanciateCamera(player1Car.transform);
         gameInitialize.instanciateFinishLine();
+        WaitingForPlayersMenu.GetComponentInChildren<Image>().color = new Color(0f, 0f, 0f, 0.5f);
+        
+        if (PhotonNetwork.PlayerList.Length == maxPlayersPerRoom)
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("StartGame", RpcTarget.Others);
+            WaitingForPlayersMenu.SetActive(false);
+            GameObject HUDCanvas = GameObject.Find("HUDCanvas");
+            HUDCanvas.GetComponentInChildren<DelayedStart>().StartRace();
+        }
 
-        /*   
-         *   var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<cameraFollow>();
+    }
 
-        camera.target = playerCar.transform;
-        playerCar.transform.parent = Cars.transform;
-        playerCar.GetComponent<carController>().setControls(new ZQSDControls());
-        playerCar.GetComponent<carController>().setMainMenu(GameObject.FindGameObjectWithTag("Menu"));
-        */
+    
+    [PunRPC]
+    void StartGame()
+    {
+        WaitingForPlayersMenu.SetActive(false);
+        GameObject HUDCanvas = GameObject.Find("HUDCanvas");
+        HUDCanvas.GetComponentInChildren<DelayedStart>().StartRace();
     }
 
 }

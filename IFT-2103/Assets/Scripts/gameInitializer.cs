@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts;
 using Assets.Scripts.Controls;
+using System;
 
 public class gameInitializer : MonoBehaviour {
 
@@ -39,9 +40,9 @@ public class gameInitializer : MonoBehaviour {
         }
         instanciateFinishLine();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -88,7 +89,7 @@ public class gameInitializer : MonoBehaviour {
 
     private Transform instanciatePlayer(Transform carPrefab, Vector3 spawnPoint)
     {
-        Transform playerTransform = playerTransform = Instantiate(carPrefab, spawnPoint, playerPrefab.rotation);
+        Transform playerTransform = Instantiate(carPrefab, spawnPoint, playerPrefab.rotation);
         playerTransform.SetParent(allCars);
         playerTransform.localScale = new Vector3(1, 1, 1);
 

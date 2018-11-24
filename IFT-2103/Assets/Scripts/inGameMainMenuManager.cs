@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -38,6 +39,7 @@ public class inGameMainMenuManager : MonoBehaviour
 
     public void QuitToMainMenu()
     {
+        PhotonNetwork.Disconnect();
         LoadLevel(0);
     }
 }

@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts;
 using Assets.Scripts.Controls;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class gameInitializer : MonoBehaviour {
     //Pour ne pas etre obligé d'avoir tous le menu d'implémenter pour tester la scene. À ENLEVER
     //########################################################################################
     private GameMode debugGameMode = GameMode.ONLINE_MP;
     //Les controls vont venir de gameparameters après avoir été set à partir du menu
-    private ControlScheme player1ControlScheme = new WASDControls();
+    private ControlScheme player1ControlScheme = new ZQSDControls();
     private ControlScheme player2ControlScheme = new ArrowsControls();
     //########################################################################################
 
@@ -47,17 +49,18 @@ public class gameInitializer : MonoBehaviour {
                 initializeOnlineMP();
                 break;
         }
-        instanciateFinishLine();
+     //   instanciateFinishLine();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
     private void initializeVSAI()
     {
         Transform player1Car = instanciatePlayer(playerPrefab, spawnPoint1.position);
+        player1Car.GetComponent<carController>().setControls(player1ControlScheme);
         Transform player1Camera = instanciateCamera(player1Car);
 
         Transform aiCar = instanciatePlayer(aiPrefab, spawnPoint2.position);
@@ -78,15 +81,29 @@ public class gameInitializer : MonoBehaviour {
 
     private void initializeOnlineMP()
     {
+        // Connect
+        // Empeche le movement
+        // Waiting for players
+        // Player connect
+        // lancer la partie
+        // Disconnect Room (redemander a Didier)
+        //
+        GameObject.FindGameObjectWithTag("Network").GetComponent<NetworkManager>().Connect(this);
 
+        /*
+        Transform player1Car = instanciatePlayer(playerPrefab, spawnPoint1.position);
+        player1Car.GetComponent<carController>().setControls(player1ControlScheme);
+        Transform player1Camera = instanciateCamera(player1Car);
+        */
     }
 
-    private void instanciateFinishLine()
+    public void instanciateFinishLine()
     {
         finishLinePrefab.GetComponent<raceManager>().allCars = allCars.gameObject;
         finishLinePrefab.GetComponent<raceManager>().progressSlider = progressSlider;
         finishLinePrefab.GetComponent<raceManager>().positionText = positionText;
         finishLinePrefab.GetComponent<raceManager>().winRaceCanvas = winRaceCanvas;
+        finishLinePrefab.GetComponent<raceManager>().loseRaceCanvas = mainMenu;
         Transform finishLine = Instantiate(finishLinePrefab, finishLinePrefab.position, finishLinePrefab.rotation);
     }
 
@@ -96,9 +113,11 @@ public class gameInitializer : MonoBehaviour {
         player2Camera.GetComponent<Camera>().rect = new Rect(0, 0, 1, 0.5f);
     }
 
-    private Transform instanciatePlayer(Transform carPrefab, Vector3 spawnPoint)
+    public Transform instanciatePlayer(Transform carPrefab, Vector3 spawnPoint)
     {
         Transform playerTransform = playerTransform = Instantiate(carPrefab, spawnPoint, playerPrefab.rotation);
+        //Transform playerTransform = playerTransform = PhotonNetwork.Instantiate(carPrefab, spawnPoint, playerPrefab.rotation);
+
         playerTransform.SetParent(allCars);
         playerTransform.localScale = new Vector3(1, 1, 1);
 
@@ -110,11 +129,16 @@ public class gameInitializer : MonoBehaviour {
         return playerTransform;
     }
 
-    private Transform instanciateCamera(Transform targetPlayer)
+    public Transform instanciateCamera(Transform targetPlayer)
     {
         Transform playerCamera = Instantiate(cameraPrefab, cameraPrefab.position, cameraPrefab.rotation);
         playerCamera.GetComponent<cameraFollow>().target = targetPlayer;
 
         return playerCamera;
+    }
+
+    public ControlScheme getCurrentController()
+    {
+        return player1ControlScheme;
     }
 }

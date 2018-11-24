@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -31,11 +32,13 @@ public class winGameMenuManager : MonoBehaviour {
 
     public void RestartRace()
     {
+        PhotonNetwork.Disconnect();
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitRaceToMainMenu()
     {
+        PhotonNetwork.Disconnect();
         LoadLevel(0);
     }
 }

@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 65382677787290828}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -567,6 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd05e19bd7552644bbbcc25fb1df6f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenu: {fileID: 0}
   CarInfos:
   - leftWheel: {fileID: 146765126205221360}
     rightWheel: {fileID: 146581381440209308}
@@ -593,7 +594,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 1
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 114698102490065718}
   viewIdField: 0

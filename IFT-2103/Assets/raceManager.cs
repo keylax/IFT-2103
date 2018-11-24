@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Photon.Pun;
 
 public class raceManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class raceManager : MonoBehaviour
 
     public GameObject finishLine;
     public GameObject winRaceCanvas;
+    public GameObject loseRaceCanvas;
 
     private Vector3 initialRacePosition;
     private Vector3 finishLinePosition;
@@ -66,11 +68,25 @@ public class raceManager : MonoBehaviour
 
     public void OnTriggerEnter(Collider trigger)
     {
-        if (trigger.tag == "Player")
+        if (trigger.CompareTag("Player"))
         {
-            GameObject HUDCanvas = GameObject.Find("HUDCanvas");
-            HUDCanvas.SetActive(false);
-            winRaceCanvas.SetActive(true);
+            if (PhotonNetwork.LocalPlayer.IsLocal)
+            {
+                GameObject HUDCanvas = GameObject.Find("HUDCanvas");
+                HUDCanvas.SetActive(false);
+                winRaceCanvas.SetActive(true);
+                PhotonView photonView = PhotonView.Get(this);
+                photonView.RPC("EndGame", RpcTarget.Others);
+            }
         }
+    }
+
+    [PunRPC]
+    void EndGame()
+    {
+        Debug.Log("End game !");
+        GameObject HUDCanvas = GameObject.Find("HUDCanvas");
+        HUDCanvas.SetActive(false);
+        loseRaceCanvas.SetActive(true);
     }
 }

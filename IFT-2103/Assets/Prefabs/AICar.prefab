@@ -604,6 +604,7 @@ MonoBehaviour:
   frontRightWheel: {fileID: 146417254793251256}
   rearLeftWheel: {fileID: 146839271605505268}
   rearRightWheel: {fileID: 146797998991414214}
+  pathFinder: {fileID: 0}
 --- !u!146 &146039491501179172
 WheelCollider:
   m_ObjectHideFlags: 1

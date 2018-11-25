@@ -10,6 +10,7 @@ public class gameInitializer : MonoBehaviour {
 
     public Transform allCars;
     public GameObject mainMenu;
+    public Transform pathfinder;
 
     [HeaderAttribute("Spawn Points")]
     public Transform spawnPoint1;
@@ -29,7 +30,7 @@ public class gameInitializer : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //À changer éventuellement pour GameParameters.getGameMode()
-        switch (GameParameters.getGameMode())
+        switch (GameMode.VERSUS_AI)
         {
             case GameMode.VERSUS_AI:
                 initializeVSAI();
@@ -53,6 +54,8 @@ public class gameInitializer : MonoBehaviour {
         player1Car.GetComponent<carController>().setControls(player1ControlScheme);
         Transform player1Camera = instanciateCamera(player1Car);
 
+        aiPrefab.GetComponent<aiCarController>().pathFinder = pathfinder;
+        aiPrefab.GetComponent<aiCarController>().finishLine = finishLinePrefab.position;
         Transform aiCar = instanciatePlayer(aiPrefab, spawnPoint2.position);
     }
     

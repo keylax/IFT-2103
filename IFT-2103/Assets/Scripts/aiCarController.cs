@@ -9,9 +9,10 @@ public class aiCarController : MonoBehaviour {
     public WheelCollider frontRightWheel;
     public WheelCollider rearLeftWheel;
     public WheelCollider rearRightWheel;
+    public Vector3 finishLine;
+    public Transform pathFinder;
+    public List<Node> path;
 
-    private Transform path;
-    private List<Transform> nodes;
     private int currectNode = 0;
     private float maxMotorTorque = 350f;
     private float maxSpeed = 30f;
@@ -27,23 +28,12 @@ public class aiCarController : MonoBehaviour {
     private float turnSpeed = 5f;
 
     private void Start () {
-        path = GameObject.Find("Path").transform;
-        Transform[] pathTransforms = path.GetComponentsInChildren<Transform>();
-        nodes = new List<Transform>();
-
-        for (int i = 0; i < pathTransforms.Length; i++) {
-            if (pathTransforms[i] != path) {
-                nodes.Add(pathTransforms[i]);
-            }
-        }
-
+        path = pathFinder.GetComponent<Pathfinding>().FindPath(transform.position, finishLine);
         initialPosition = transform.position;
     }
 
     public void reset()
     {
-
-
         frontLeftWheel.steerAngle = 0;
         frontRightWheel.steerAngle = 0;
         frontLeftWheel.motorTorque = 0;
@@ -68,14 +58,13 @@ public class aiCarController : MonoBehaviour {
 
     private void steer() {
         if (avoiding) return;
-        Vector3 relativeVector = transform.InverseTransformPoint(nodes[currectNode].position);
+        Vector3 relativeVector = transform.InverseTransformPoint(path[currectNode].worldPosition);
         float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteeringAngle;
         targetSteerAngle = newSteer;
     }
 
     private void drive() {
         float currentSpeed = 2 * Mathf.PI * frontLeftWheel.radius * frontLeftWheel.rpm * 60 / 1000;
-        Debug.Log(currentSpeed);
         if (currentSpeed < maxSpeed)
         {
             frontLeftWheel.motorTorque = maxMotorTorque;
@@ -148,7 +137,7 @@ public class aiCarController : MonoBehaviour {
             } else if (hit.collider.CompareTag("Player"))
             {
                 avoiding = true;
-                avoidMultiplier += 0.5f;
+                avoidMultiplier -= 0.5f;
             }
         }
         else if (Physics.Raycast(detectorStartingPos, Quaternion.AngleAxis(30, transform.up) * transform.forward, out hit, detectionRaycastsLength))
@@ -160,7 +149,7 @@ public class aiCarController : MonoBehaviour {
             }  else if (hit.collider.CompareTag("Player"))
             {
                 avoiding = true;
-                avoidMultiplier += 0.5f;
+                avoidMultiplier -= 0.5f;
             }
         }
         else if (Physics.Raycast(detectorStartingPos, Quaternion.AngleAxis(-15, transform.up) * transform.forward, out hit, detectionRaycastsLength))
@@ -197,10 +186,10 @@ public class aiCarController : MonoBehaviour {
 
     private void checkCurrentWaypoint() {
         float distanceFromCarToStartingPosition = Vector3.Distance(transform.position, startingPosition);
-        float distanceFromCurrentNodeToStartingPosition = Vector3.Distance(nodes[currectNode].position, startingPosition);
+        float distanceFromCurrentNodeToStartingPosition = Vector3.Distance(path[currectNode].worldPosition, startingPosition);
         if (distanceFromCarToStartingPosition > distanceFromCurrentNodeToStartingPosition)
         {
-            if (currectNode < nodes.Count - 1)
+            if (currectNode < path.Count - 1)
             {
                 currectNode++;
             }

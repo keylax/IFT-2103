@@ -4,6 +4,5 @@
     {
         float getHorizontalAxis();
         float getVerticalAxis();
-        bool getMenuButtonDown();
     }
 }

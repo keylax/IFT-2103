@@ -9,32 +9,32 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1602474718637728}
+  m_RootGameObject: {fileID: 1658858332310700}
   m_IsPrefabAsset: 1
---- !u!1 &1602474718637728
+--- !u!1 &1658858332310700
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4421235293942866}
-  - component: {fileID: 114800332006446148}
-  - component: {fileID: 114364187171891480}
-  - component: {fileID: 114786563534756432}
+  - component: {fileID: 4534110679693046}
+  - component: {fileID: 114548209959488058}
+  - component: {fileID: 114126704744563510}
+  - component: {fileID: 114158660353969054}
   m_Layer: 0
   m_Name: NetworkManager
-  m_TagString: Untagged
+  m_TagString: Network
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4421235293942866
+--- !u!4 &4534110679693046
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1602474718637728}
+  m_GameObject: {fileID: 1658858332310700}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.959478, y: 12.77009, z: -10.911805}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -42,12 +42,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114364187171891480
+--- !u!114 &114126704744563510
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1602474718637728}
+  m_GameObject: {fileID: 1658858332310700}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
@@ -56,12 +56,12 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!114 &114786563534756432
+--- !u!114 &114158660353969054
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1602474718637728}
+  m_GameObject: {fileID: 1658858332310700}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1e8eb04562c71a448d87f3292d27035, type: 3}
@@ -70,15 +70,15 @@ MonoBehaviour:
   maxPlayersPerRoom: 2
   SpawnerHost: {fileID: 0}
   SpawnerClient: {fileID: 0}
-  player: BasicCarRed
-  controls: {fileID: 0}
+  player: PlayerCar
   Cars: {fileID: 0}
---- !u!114 &114800332006446148
+  WaitingForPlayersMenu: {fileID: 0}
+--- !u!114 &114548209959488058
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1602474718637728}
+  m_GameObject: {fileID: 1658858332310700}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
@@ -90,7 +90,7 @@ MonoBehaviour:
   Synchronization: 1
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114364187171891480}
+  - {fileID: 114126704744563510}
   viewIdField: 0
   InstantiationId: 1
   isRuntimeInstantiated: 0

@@ -30,7 +30,7 @@ public class gameInitializer : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //À changer éventuellement pour GameParameters.getGameMode()
-        switch (GameMode.VERSUS_AI)
+        switch (GameParameters.getGameMode())
         {
             case GameMode.VERSUS_AI:
                 initializeVSAI();

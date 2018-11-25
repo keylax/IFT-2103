@@ -10,7 +10,6 @@ public enum GameMode
 
 public static class GameParameters {
     private static GameMode chosenGameMode;
-    //À ENVLEVER À LA FIN
     private static ControlScheme playerOneControls = new WASDControls();
     private static ControlScheme playerTwoControls = new ArrowsControls();
 

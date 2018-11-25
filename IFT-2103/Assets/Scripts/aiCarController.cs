@@ -9,38 +9,31 @@ public class aiCarController : MonoBehaviour {
     public WheelCollider frontRightWheel;
     public WheelCollider rearLeftWheel;
     public WheelCollider rearRightWheel;
+    public Vector3 finishLine;
+    public Transform pathFinder;
+    public List<Node> path;
 
-    private Transform path;
-    private List<Transform> nodes;
     private int currectNode = 0;
     private float maxMotorTorque = 350f;
+    private float maxSpeed = 30f;
     private float maxBrakeTorque = 600f;
     private float maxSteeringAngle = 45f;
-    private float detectionRaycastsLength = 25;
+    private float detectionRaycastsLength = 10;
     private float frontSideDetectorPos = 2f;
     private Vector3 frontDetectorPos = new Vector3(0f, 0.5f, 2f);
     private Vector3 initialPosition;
     private bool avoiding = false;
     private bool isBraking = false;
+    private float targetSteerAngle = 0;
+    private float turnSpeed = 5f;
 
     private void Start () {
-        path = GameObject.Find("Path").transform;
-        Transform[] pathTransforms = path.GetComponentsInChildren<Transform>();
-        nodes = new List<Transform>();
-
-        for (int i = 0; i < pathTransforms.Length; i++) {
-            if (pathTransforms[i] != path) {
-                nodes.Add(pathTransforms[i]);
-            }
-        }
-
+        path = pathFinder.GetComponent<Pathfinding>().FindPath(transform.position, finishLine);
         initialPosition = transform.position;
     }
 
     public void reset()
     {
-
-
         frontLeftWheel.steerAngle = 0;
         frontRightWheel.steerAngle = 0;
         frontLeftWheel.motorTorque = 0;
@@ -60,27 +53,29 @@ public class aiCarController : MonoBehaviour {
         drive();
         checkCurrentWaypoint();
         braking();
+        lerpToSteerAngle();
 	}
 
     private void steer() {
         if (avoiding) return;
-        Vector3 relativeVector = transform.InverseTransformPoint(nodes[currectNode].position);
+        Vector3 relativeVector = transform.InverseTransformPoint(path[currectNode].worldPosition);
         float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteeringAngle;
-        frontLeftWheel.steerAngle = newSteer;
-        frontRightWheel.steerAngle = newSteer;
-        rotateWheelsMesh();
+        targetSteerAngle = newSteer;
     }
 
     private void drive() {
-        if (!isBraking)
+        float currentSpeed = 2 * Mathf.PI * frontLeftWheel.radius * frontLeftWheel.rpm * 60 / 1000;
+        if (currentSpeed < maxSpeed)
         {
             frontLeftWheel.motorTorque = maxMotorTorque;
             frontRightWheel.motorTorque = maxMotorTorque;
+            isBraking = false;
         }
         else
         {
             frontLeftWheel.motorTorque = 0;
             frontRightWheel.motorTorque = 0;
+            isBraking = true;
         }
     }
 
@@ -105,20 +100,42 @@ public class aiCarController : MonoBehaviour {
         float avoidMultiplier = 0;
         avoiding = false;
 
-        if (Physics.Raycast(detectorStartingPos, transform.forward, out hit, detectionRaycastsLength))
+        if (Physics.Raycast(detectorStartingPos, transform.forward, out hit, detectionRaycastsLength * 2))
         {
             if (hit.collider.CompareTag("Obstacle"))
             {
                 Debug.DrawLine(detectorStartingPos, hit.point);
                 avoiding = true;
-                avoidMultiplier -= 1f;
+                if (hit.point.z < hit.collider.gameObject.transform.position.z)
+                {
+                    avoidMultiplier = 1;
+                }
+                else
+                {
+                    avoidMultiplier = -1;
+                }
+            } else if (hit.collider.CompareTag("Player"))
+            {
+                avoiding = true;
+                if (hit.point.z < hit.collider.gameObject.transform.position.z)
+                {
+                    avoidMultiplier = 1;
+                }
+                else
+                {
+
+                    avoidMultiplier = -1;
+                }
             }
         }
         else if (Physics.Raycast(detectorStartingPos, Quaternion.AngleAxis(15, transform.up) * transform.forward, out hit, detectionRaycastsLength))
         {
             if (hit.collider.CompareTag("Obstacle"))
             {
-                Debug.DrawLine(detectorStartingPos, hit.point);
+                avoiding = true;
+                avoidMultiplier -= 0.5f;
+            } else if (hit.collider.CompareTag("Player"))
+            {
                 avoiding = true;
                 avoidMultiplier -= 0.5f;
             }
@@ -127,26 +144,22 @@ public class aiCarController : MonoBehaviour {
         {
             if (hit.collider.CompareTag("Obstacle"))
             {
-                Debug.DrawLine(detectorStartingPos, hit.point);
                 avoiding = true;
                 avoidMultiplier -= 0.5f;
-            }
-        }
-
-        if (Physics.Raycast(detectorStartingPos, transform.forward, out hit, detectionRaycastsLength))
-        {
-            if (hit.collider.CompareTag("Obstacle"))
+            }  else if (hit.collider.CompareTag("Player"))
             {
-                Debug.DrawLine(detectorStartingPos, hit.point);
                 avoiding = true;
-                avoidMultiplier += 1f;
+                avoidMultiplier -= 0.5f;
             }
         }
         else if (Physics.Raycast(detectorStartingPos, Quaternion.AngleAxis(-15, transform.up) * transform.forward, out hit, detectionRaycastsLength))
         {
             if (hit.collider.CompareTag("Obstacle"))
             {
-                Debug.DrawLine(detectorStartingPos, hit.point);
+                avoiding = true;
+                avoidMultiplier += 0.5f;
+            } else if (hit.collider.CompareTag("Player"))
+            {
                 avoiding = true;
                 avoidMultiplier += 0.5f;
             }
@@ -155,29 +168,12 @@ public class aiCarController : MonoBehaviour {
         {
             if (hit.collider.CompareTag("Obstacle"))
             {
-                Debug.DrawLine(detectorStartingPos, hit.point);
                 avoiding = true;
                 avoidMultiplier += 0.5f;
-            }
-        }
-
-        if (avoidMultiplier == 0)
-        {
-            if (Physics.Raycast(detectorStartingPos, transform.forward, out hit, detectionRaycastsLength))
+            } else if (hit.collider.CompareTag("Player"))
             {
-                if (hit.collider.CompareTag("Obstacle"))
-                {
-                    Debug.DrawLine(detectorStartingPos, hit.point);
-                    avoiding = true;
-                    if (hit.normal.x < 0)
-                    {
-                        avoidMultiplier = -1;
-                    }
-                    else
-                    {
-                        avoidMultiplier = 1;
-                    }
-                }
+                avoiding = true;
+                avoidMultiplier += 0.5f;
             }
         }
 
@@ -190,10 +186,10 @@ public class aiCarController : MonoBehaviour {
 
     private void checkCurrentWaypoint() {
         float distanceFromCarToStartingPosition = Vector3.Distance(transform.position, startingPosition);
-        float distanceFromCurrentNodeToStartingPosition = Vector3.Distance(nodes[currectNode].position, startingPosition);
+        float distanceFromCurrentNodeToStartingPosition = Vector3.Distance(path[currectNode].worldPosition, startingPosition);
         if (distanceFromCarToStartingPosition > distanceFromCurrentNodeToStartingPosition)
         {
-            if (currectNode < nodes.Count - 1)
+            if (currectNode < path.Count - 1)
             {
                 currectNode++;
             }
@@ -211,5 +207,11 @@ public class aiCarController : MonoBehaviour {
         visualLeftWheel.transform.rotation = rotation;
         frontRightWheel.GetWorldPose(out position, out rotation);
         visualRightWheel.transform.rotation = rotation;
+    }
+
+    private void lerpToSteerAngle()
+    {
+        frontLeftWheel.steerAngle = Mathf.Lerp(frontLeftWheel.steerAngle, targetSteerAngle, Time.deltaTime * turnSpeed);
+        frontRightWheel.steerAngle = Mathf.Lerp(frontRightWheel.steerAngle, targetSteerAngle, Time.deltaTime * turnSpeed);
     }
 }

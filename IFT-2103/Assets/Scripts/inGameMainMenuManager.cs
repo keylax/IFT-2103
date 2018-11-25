@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,8 +20,6 @@ public class inGameMainMenuManager : MonoBehaviour
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
 
-
-
         loadingScreen.SetActive(true);
 
         while (!operation.isDone)
@@ -38,6 +37,10 @@ public class inGameMainMenuManager : MonoBehaviour
 
     public void QuitToMainMenu()
     {
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Disconnect();
+        }
         LoadLevel(0);
     }
 }

@@ -43,6 +43,12 @@ public class mainMenuManager : MonoBehaviour {
         LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void PlayOnlineMPGame()
+    {
+        GameParameters.setGameMode(GameMode.ONLINE_MP);
+        LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
     public void QuitGame()
     {
         Application.Quit();

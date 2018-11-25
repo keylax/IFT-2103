@@ -34,6 +34,8 @@ public class gameInitializer : MonoBehaviour {
     public Slider progressSlider;
     public Text positionText;
     public GameObject winRaceCanvas;
+    public GameObject loseRaceCanvas;
+
 
     // Use this for initialization
     void Start () {
@@ -84,11 +86,6 @@ public class gameInitializer : MonoBehaviour {
 
     private void initializeOnlineMP()
     {
-        // Connect
-        // Empeche le movement
-        // Waiting for players
-        // Player connect
-        // lancer la partie
         WaitingForPlayersMenu.SetActive(true);
         GameObject.FindGameObjectWithTag("Network").GetComponent<NetworkManager>().Connect(this);
     }
@@ -99,7 +96,7 @@ public class gameInitializer : MonoBehaviour {
         finishLinePrefab.GetComponent<raceManager>().progressSlider = progressSlider;
         finishLinePrefab.GetComponent<raceManager>().positionText = positionText;
         finishLinePrefab.GetComponent<raceManager>().winRaceCanvas = winRaceCanvas;
-        finishLinePrefab.GetComponent<raceManager>().loseRaceCanvas = mainMenu;
+        finishLinePrefab.GetComponent<raceManager>().loseRaceCanvas = loseRaceCanvas;
         Transform finishLine = Instantiate(finishLinePrefab, finishLinePrefab.position, finishLinePrefab.rotation);
         if (!PhotonNetwork.IsConnected)
         {

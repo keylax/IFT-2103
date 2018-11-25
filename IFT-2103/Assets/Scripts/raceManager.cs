@@ -84,7 +84,6 @@ public class raceManager : MonoBehaviour
     [PunRPC]
     void EndGame()
     {
-        Debug.Log("End game !");
         GameObject HUDCanvas = GameObject.Find("HUDCanvas");
         HUDCanvas.SetActive(false);
         loseRaceCanvas.SetActive(true);

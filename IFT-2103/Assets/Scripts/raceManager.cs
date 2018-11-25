@@ -14,6 +14,7 @@ public class raceManager : MonoBehaviour
     public GameObject finishLine;
     public GameObject winRaceCanvas;
     public GameObject loseRaceCanvas;
+    public GameObject endOfGameMenuOfflineMP;
 
     private Vector3 initialRacePosition;
     private Vector3 finishLinePosition;
@@ -68,17 +69,40 @@ public class raceManager : MonoBehaviour
 
     public void OnTriggerEnter(Collider trigger)
     {
-        if (trigger.CompareTag("Player"))
+        if (GameParameters.getGameMode() == GameMode.VERSUS_AI || GameParameters.getGameMode() == GameMode.ONLINE_MP)
         {
-            if (PhotonNetwork.IsConnected && PhotonNetwork.LocalPlayer.IsLocal)
-            {
-                PhotonView photonView = PhotonView.Get(this);
-                photonView.RPC("EndGame", RpcTarget.Others);
-            }
+                if (trigger.CompareTag("Player"))
+                {
+                    if (PhotonNetwork.IsConnected && PhotonNetwork.LocalPlayer.IsLocal)
+                    {
+                        PhotonView photonView = PhotonView.Get(this);
+                        photonView.RPC("EndGame", RpcTarget.Others);
+                    }
+                    GameObject HUDCanvas = GameObject.Find("HUDCanvas");
+                    HUDCanvas.SetActive(false);
+                    winRaceCanvas.SetActive(true);
+                }
+                else
+                {
+                    GameObject HUDCanvas = GameObject.Find("HUDCanvas");
+                    HUDCanvas.SetActive(false);
+                    loseRaceCanvas.SetActive(true);
+                }
+        } else
+        {
             GameObject HUDCanvas = GameObject.Find("HUDCanvas");
             HUDCanvas.SetActive(false);
-            winRaceCanvas.SetActive(true);
+            endOfGameMenuOfflineMP.SetActive(true);
+            GameObject winMsg = GameObject.Find("winMsg");
+            if (trigger.transform == allCars.transform.GetChild(0).GetChild(0))
+            {
+                winMsg.GetComponent<Text>().text = "Player 1 wins";
+            } else
+            {
+                winMsg.GetComponent<Text>().text = "Player 2 wins";
+            }
         }
+        
     }
     
     [PunRPC]

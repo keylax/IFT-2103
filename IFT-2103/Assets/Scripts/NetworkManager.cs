@@ -8,16 +8,14 @@ using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviourPunCallbacks {
 
-    string gameVersion = "1";
+    private string gameVersion = "1";
     [SerializeField]
     private byte maxPlayersPerRoom = 2;
     public Transform SpawnerHost;
     public Transform SpawnerClient;
     private string roomName = "room 1";
-    private string VERSION = "v.0.0.1";
     public string player = "PlayerCar";
     public GameObject Cars;
-    public GameObject playerPrefab;
     private gameInitializer gameInitialize;
     public GameObject WaitingForPlayersMenu;
 
@@ -50,9 +48,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         }
     }
 
-    #region MonoBehaviourPunCallbacks Callbacks
-
-
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster() was called by PUN");
@@ -65,11 +60,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public override void OnDisconnected(DisconnectCause cause)
     {
+        PhotonNetwork.ReconnectAndRejoin();
         Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
     }
 
-
-    #endregion
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {

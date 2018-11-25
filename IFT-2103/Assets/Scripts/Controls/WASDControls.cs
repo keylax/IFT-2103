@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -10,12 +6,28 @@ namespace Assets.Scripts
     {
         public float getHorizontalAxis()
         {
-            return Input.GetAxis("HorizontalWASD");
+            if (Input.GetKey(KeyCode.A))
+            {
+                return -1f;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                return 1f;
+            }
+            return 0f;
         }
 
         public float getVerticalAxis()
         {
-            return Input.GetAxis("VerticalWASD");
+            if (Input.GetKey(KeyCode.W))
+            {
+                return 1f;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                return -1f;
+            }
+            return 0f;
         }
 
         public bool getMenuButtonDown()

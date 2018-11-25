@@ -6,6 +6,7 @@ using Assets.Scripts;
 using Assets.Scripts.Controls;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 
 public class gameInitializer : MonoBehaviour {
     //Pour ne pas etre obligé d'avoir tous le menu d'implémenter pour tester la scene. À ENLEVER
@@ -52,7 +53,6 @@ public class gameInitializer : MonoBehaviour {
                 initializeOnlineMP();
                 break;
         }
-     //   instanciateFinishLine();
     }
 
     // Update is called once per frame
@@ -62,6 +62,7 @@ public class gameInitializer : MonoBehaviour {
 
     private void initializeVSAI()
     {
+        ControlScheme player1ControlScheme = GameParameters.getPlayerOneControls();
         Transform player1Car = instanciatePlayer(playerPrefab, spawnPoint1.position);
         player1Car.GetComponent<carController>().SetControls(player1ControlScheme);
         Transform player1Camera = instanciateCamera(player1Car);
@@ -72,6 +73,9 @@ public class gameInitializer : MonoBehaviour {
     
     private void initializeOfflineMP()
     {
+        ControlScheme player1ControlScheme = GameParameters.getPlayerOneControls();
+        ControlScheme player2ControlScheme = GameParameters.getPlayerTwoControls();
+
         Transform player1Car = instanciatePlayer(playerPrefab, spawnPoint1.position);
         player1Car.GetComponent<carController>().SetControls(player1ControlScheme);
         Transform player1Camera = instanciateCamera(player1Car);
@@ -113,8 +117,7 @@ public class gameInitializer : MonoBehaviour {
 
     public Transform instanciatePlayer(Transform carPrefab, Vector3 spawnPoint)
     {
-        Transform playerTransform = playerTransform = Instantiate(carPrefab, spawnPoint, playerPrefab.rotation);
-
+        Transform playerTransform = Instantiate(carPrefab, spawnPoint, playerPrefab.rotation);
         playerTransform.SetParent(allCars);
         playerTransform.localScale = new Vector3(1, 1, 1);
 
@@ -136,6 +139,6 @@ public class gameInitializer : MonoBehaviour {
 
     public ControlScheme getCurrentController()
     {
-        return player1ControlScheme;
+        return GameParameters.getPlayerOneControls();
     }
 }

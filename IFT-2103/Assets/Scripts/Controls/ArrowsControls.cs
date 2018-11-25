@@ -33,10 +33,5 @@ namespace Assets.Scripts.Controls
             }
             return 0f;
         }
-
-        public bool getMenuButtonDown()
-        {
-            return Input.GetButtonDown("MenuWASD");
-        }
     }
 }

@@ -593,7 +593,6 @@ MonoBehaviour:
     steering: 0
   maxMotorTorque: 400
   maxSteeringAngle: 20
-  enableControls: 0
 --- !u!114 &114791227493578496
 MonoBehaviour:
   m_ObjectHideFlags: 1

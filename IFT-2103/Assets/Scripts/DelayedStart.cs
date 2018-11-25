@@ -8,16 +8,22 @@ public class DelayedStart : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        StartCoroutine("startDelay");
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    public void StartRace()
+    {
+        StartCoroutine("startDelay");
+    }
+
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
     IEnumerator startDelay()
     {
+        countDown.SetActive(true);
         Time.timeScale = 0;
         float pauseTime = Time.realtimeSinceStartup + 3f;
         while(Time.realtimeSinceStartup < pauseTime)

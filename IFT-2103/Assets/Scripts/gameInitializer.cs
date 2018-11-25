@@ -9,17 +9,7 @@ using Photon.Realtime;
 using System;
 
 public class gameInitializer : MonoBehaviour {
-    //Pour ne pas etre obligé d'avoir tous le menu d'implémenter pour tester la scene. À ENLEVER
-    //########################################################################################
-    private GameMode debugGameMode = GameMode.ONLINE_MP;
-    //Les controls vont venir de gameparameters après avoir été set à partir du menu
-    private ControlScheme player1ControlScheme = new ZQSDControls();
-    private ControlScheme player2ControlScheme = new ArrowsControls();
-    //########################################################################################
-
     public Transform allCars;
-    public GameObject mainMenu;
-    public GameObject WaitingForPlayersMenu;
 
     [HeaderAttribute("Spawn Points")]
     public Transform spawnPoint1;
@@ -90,8 +80,8 @@ public class gameInitializer : MonoBehaviour {
 
     private void initializeOnlineMP()
     {
-        WaitingForPlayersMenu.SetActive(true);
-        GameObject.FindGameObjectWithTag("Network").GetComponent<NetworkManager>().Connect(this);
+        //WaitingForPlayersMenu.SetActive(true);
+        //GameObject.FindGameObjectWithTag("Network").GetComponent<NetworkManager>().Connect(this);
     }
 
     public void instanciateFinishLine()
@@ -123,7 +113,7 @@ public class gameInitializer : MonoBehaviour {
 
         if (carPrefab.tag == "Player")
         {
-            playerTransform.GetComponent<carController>().mainMenu = mainMenu;
+            //playerTransform.GetComponent<carController>().mainMenu = mainMenu;
         }
 
         return playerTransform;

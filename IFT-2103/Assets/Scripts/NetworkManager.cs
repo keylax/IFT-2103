@@ -85,7 +85,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         }
         player1Car.transform.SetParent(Cars.transform);
         player1Car.GetComponent<carController>().SetControls(gameInitialize.getCurrentController());
-        player1Car.GetComponent<carController>().SetMainMenu(gameInitialize.mainMenu);
+        //player1Car.GetComponent<carController>().SetMainMenu(gameInitialize.mainMenu);
         gameInitialize.instanciateCamera(player1Car.transform);
         gameInitialize.instanciateFinishLine();
         WaitingForPlayersMenu.GetComponentInChildren<Image>().color = new Color(0f, 0f, 0f, 0.5f);

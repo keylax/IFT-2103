@@ -10,12 +10,28 @@ namespace Assets.Scripts.Controls
     {
         public float getHorizontalAxis()
         {
-            return Input.GetAxis("HorizontalZQSD");
+            if (Input.GetKey(KeyCode.Q))
+            {
+                return -1f;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                return 1f;
+            }
+            return 0f;
         }
 
         public float getVerticalAxis()
         {
-            return Input.GetAxis("VerticalZQSD");
+            if (Input.GetKey(KeyCode.Z))
+            {
+                return 1f;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                return -1f;
+            }
+            return 0f;
         }
 
         public bool getMenuButtonDown()

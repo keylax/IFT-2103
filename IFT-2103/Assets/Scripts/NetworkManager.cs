@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using Assets.Scripts.Controls;
 using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviourPunCallbacks {
@@ -60,7 +59,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        PhotonNetwork.ReconnectAndRejoin();
         Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
     }
 
@@ -86,6 +84,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         player1Car.transform.SetParent(Cars.transform);
         player1Car.GetComponent<carController>().setControls(gameInitialize.getCurrentController());
         player1Car.GetComponent<carController>().setMainMenu(gameInitialize.mainMenu);
+        player1Car.GetComponent<carController>().setEnableCommand(false);
         gameInitialize.instanciateCamera(player1Car.transform);
         gameInitialize.instanciateFinishLine();
         WaitingForPlayersMenu.GetComponentInChildren<Image>().color = new Color(0f, 0f, 0f, 0.5f);
@@ -96,16 +95,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             photonView.RPC("StartGame", RpcTarget.Others);
             WaitingForPlayersMenu.SetActive(false);
             GameObject HUDCanvas = GameObject.Find("HUDCanvas");
+            player1Car.GetComponent<carController>().setEnableCommand(true);
             HUDCanvas.GetComponentInChildren<DelayedStart>().StartRace();
         }
 
     }
 
-    
     [PunRPC]
     void StartGame()
     {
         WaitingForPlayersMenu.SetActive(false);
+        var controller = Cars.GetComponentsInChildren<carController>();
+        for (int i = 0; i <  controller.Length; i++)
+        {
+            controller[i].setEnableCommand(true);
+        }
         GameObject HUDCanvas = GameObject.Find("HUDCanvas");
         HUDCanvas.GetComponentInChildren<DelayedStart>().StartRace();
     }

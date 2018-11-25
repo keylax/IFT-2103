@@ -29,6 +29,7 @@ public class gameInitializer : MonoBehaviour {
     public Text positionText;
     public GameObject winRaceCanvas;
     public GameObject loseRaceCanvas;
+    public GameObject endOfGameMenuOfflineMP;
 
 
     // Use this for initialization
@@ -95,6 +96,7 @@ public class gameInitializer : MonoBehaviour {
         finishLinePrefab.GetComponent<raceManager>().positionText = positionText;
         finishLinePrefab.GetComponent<raceManager>().winRaceCanvas = winRaceCanvas;
         finishLinePrefab.GetComponent<raceManager>().loseRaceCanvas = loseRaceCanvas;
+        finishLinePrefab.GetComponent<raceManager>().endOfGameMenuOfflineMP = endOfGameMenuOfflineMP;
         Transform finishLine = Instantiate(finishLinePrefab, finishLinePrefab.position, finishLinePrefab.rotation);
         if (!PhotonNetwork.IsConnected)
         {

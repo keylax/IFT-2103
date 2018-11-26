@@ -49,7 +49,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("OnConnectedToMaster() was called by PUN");
         RoomOptions roomOption = new RoomOptions();
         roomOption.IsVisible = false;
         roomOption.MaxPlayers = maxPlayersPerRoom;
@@ -59,7 +58,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
     }
 
 
@@ -97,6 +95,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             GameObject HUDCanvas = GameObject.Find("HUDCanvas");
             player1Car.GetComponent<carController>().setEnableCommand(true);
             HUDCanvas.GetComponentInChildren<DelayedStart>().StartRace();
+            player1Car.GetComponent<carController>().SetCountDown();
         }
 
     }
@@ -106,12 +105,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     {
         WaitingForPlayersMenu.SetActive(false);
         var controller = Cars.GetComponentsInChildren<carController>();
-        for (int i = 0; i <  controller.Length; i++)
+        for (int i = 0; i < controller.Length; i++)
         {
             controller[i].setEnableCommand(true);
         }
         GameObject HUDCanvas = GameObject.Find("HUDCanvas");
         HUDCanvas.GetComponentInChildren<DelayedStart>().StartRace();
+        for (int i = 0; i < controller.Length; i++)
+        {
+            controller[i].GetComponent<carController>().SetCountDown();
+        }
     }
 
 }

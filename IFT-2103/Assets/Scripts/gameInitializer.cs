@@ -76,6 +76,7 @@ public class gameInitializer : MonoBehaviour {
         Transform player1Camera = instanciateCamera(player1Car);
 
         Transform player2Car = instanciatePlayer(playerPrefab, spawnPoint2.position);
+        player2Car.tag = "Player2";
         player2Car.GetComponent<carController>().setControls(player2ControlScheme);
         Transform player2Camera = instanciateCamera(player2Car);
 

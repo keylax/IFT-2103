@@ -7,6 +7,7 @@ TagManager:
   - Wheel
   - Obstacle
   - AICar
+  - Player2
   layers:
   - Default
   - TransparentFX

@@ -98,7 +98,9 @@ namespace Invector.CharacterController
             isGrounded,
             isStrafing,
             isSprinting,
-            isSliding;
+            isSliding,
+            isRunning;
+
 
         // action bools
         [HideInInspector]
@@ -234,6 +236,7 @@ namespace Invector.CharacterController
             // set speed to both vertical and horizontal inputs
             speed = Mathf.Abs(input.x) + Mathf.Abs(input.y);            
             speed = Mathf.Clamp(speed, 0, 1f);
+            isRunning = speed > 0;
             // add 0.5f on sprint to change the animation on animator
             if (isSprinting) speed += 0.5f;
                         

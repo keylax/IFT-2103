@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class PickupItem : MonoBehaviour {
     public float rotationSpeed = 1.5f;
-    public float volumeModifier = 1.0f;
     public AudioClip pickupClip;
 
 	// Use this for initialization
 	void Start () {
-		volumeModifier = gameParameters.getVolume();
+
     }
 	
 	// Update is called once per frame

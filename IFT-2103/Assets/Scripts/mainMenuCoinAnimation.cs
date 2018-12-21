@@ -6,22 +6,26 @@ public class mainMenuCoinAnimation : MonoBehaviour {
 
     public Image coinImage;
     private Vector3 currentPos;
+    private bool isRunning = false;
 
 	// Use this for initialization
 	void Start () {
         currentPos = coinImage.transform.position;
-        StartCoroutine(anim());
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if(!isRunning)
+        {
+           StartCoroutine(MoveToPosition());
+        }
     }
 
     IEnumerator MoveToPosition()
     {
-        yield return null;
+        isRunning = true;
 
-        float time = 3f;
+        float time = Random.Range(2f, 4f) ;
         float elapsedTime = 0f;
 
         int height = Screen.height;
@@ -41,15 +45,9 @@ public class mainMenuCoinAnimation : MonoBehaviour {
 
         coinImage.transform.position = nextPos;
         currentPos = coinImage.transform.position;
-    }
 
-    IEnumerator anim()
-    {
-        while (true)
-        {
-            StartCoroutine(MoveToPosition());
-            yield return null;
-        }
+        isRunning = false;
+        yield return new WaitForSeconds(time);
     }
 
     private float Ease(float t)

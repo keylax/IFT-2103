@@ -7646,8 +7646,10 @@ MonoBehaviour:
   jumpInput: 32
   strafeInput: 9
   sprintInput: 304
+  menuInput: 113
   rotateCameraXInput: Mouse X
   rotateCameraYInput: Mouse Y
+  InGameMenu: {fileID: 0}
   customCameraState: 
   customlookAtPoint: 
   changeCameraState: 0

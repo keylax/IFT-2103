@@ -23,4 +23,9 @@ public static class gameParameters {
     {
         volumePercentage = volumePerc;
     }
+
+    public static int getVolume()
+    {
+        return volumePercentage;
+    }
 }

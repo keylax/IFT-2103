@@ -4,22 +4,32 @@ using UnityEngine;
 
 public class CharacterSoundsManager : MonoBehaviour {
     public AudioClip jump;
-    private AudioClip currentAudioClip;
+    private AudioSource audioSource;
+    private string playingSFX = "";
     // Use this for initialization
     void Start () {
-		
+        audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (!GetComponent<AudioSource>().isPlaying && GetComponent<AudioSource>().clip != jump)
+        if (!audioSource.isPlaying)
         {
-            GetComponent<AudioSource>().clip = jump;
+            playingSFX = "";
         }
 	}
 
-    public void setCurrentAudioClip(AudioClip clip)
+    public void playJumpSFX()
     {
-        currentAudioClip = clip;
+        if ((audioSource.isPlaying && playingSFX != jump.name) || !audioSource.isPlaying)
+        {
+            playSFX(jump);
+        } 
+    }
+
+    public void playSFX(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
+        playingSFX = clip.name;
     }
 }

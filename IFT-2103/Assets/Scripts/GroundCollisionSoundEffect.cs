@@ -9,7 +9,7 @@ public class GroundCollisionSoundEffect : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+        volumeModifier = gameParameters.getVolume();
 	}
 	
 	// Update is called once per frame

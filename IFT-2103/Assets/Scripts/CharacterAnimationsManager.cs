@@ -38,9 +38,6 @@ public class CharacterAnimationsManager : MonoBehaviour {
 
     private void playJumpSound()
     {
-        if (!GetComponent<AudioSource>().isPlaying)
-        {
-            GetComponent<AudioSource>().Play();
-        }
+       GetComponent<CharacterSoundsManager>().playJumpSFX();
     }
 }

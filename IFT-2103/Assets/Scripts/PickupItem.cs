@@ -9,8 +9,8 @@ public class PickupItem : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+		volumeModifier = gameParameters.getVolume();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -21,9 +21,7 @@ public class PickupItem : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<AudioSource>().volume = volumeModifier;
-            other.gameObject.GetComponent<AudioSource>().clip = pickupClip;
-            other.gameObject.GetComponent<AudioSource>().Play();
+            other.gameObject.GetComponent<CharacterSoundsManager>().playSFX(pickupClip);
             Destroy(gameObject);
         }
     }

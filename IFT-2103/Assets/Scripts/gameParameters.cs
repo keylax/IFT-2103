@@ -2,7 +2,7 @@
 
 public static class gameParameters {
 
-    private static int volumePercentage = 0;
+    private static float volume = 1;
 
     public static void setQualityLevelToLow()
     {
@@ -19,8 +19,13 @@ public static class gameParameters {
         QualitySettings.SetQualityLevel(3, true);
     }
 
-    public static void setVolume(int volumePerc)
+    public static void setVolume(float chosenVolume)
     {
-        volumePercentage = volumePerc;
+        volume = chosenVolume;
+    }
+
+    public static float getVolume()
+    {
+        return volume;
     }
 }

@@ -933,6 +933,7 @@ GameObject:
   - component: {fileID: 114023797637221208}
   - component: {fileID: 114639129824639992}
   - component: {fileID: 114190222211864164}
+  - component: {fileID: 114878025690597604}
   m_Layer: 8
   m_Name: mario
   m_TagString: Player
@@ -3056,7 +3057,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1378694534769722}
   m_LocalRotation: {x: -9.949072e-10, y: 0.0074081253, z: -0.000000010412199, w: -0.99997264}
-  m_LocalPosition: {x: -6.35, y: 0.187, z: 2}
+  m_LocalPosition: {x: 0, y: 0.187, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4053319130749400}
@@ -7317,7 +7318,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 251207026ab9bf247ae7eca60dbaddbc, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -7750,6 +7751,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseFootAudioVolume: 1
   soundEffectPitchRandomness: 0.05
+--- !u!114 &114878025690597604
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1378694534769722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e096fd2c55fe9459e00494cf9e70c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jump: {fileID: 8300000, guid: 251207026ab9bf247ae7eca60dbaddbc, type: 3}
 --- !u!135 &135635294780032806
 SphereCollider:
   m_ObjectHideFlags: 1

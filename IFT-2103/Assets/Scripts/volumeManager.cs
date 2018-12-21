@@ -7,7 +7,7 @@ public class volumeManager : MonoBehaviour {
 
     public void setVolume()
     {
-        gameParameters.setVolume((int)(volumeSlider.value * 100));
+        gameParameters.setVolume(volumeSlider.value);
     }
 
 }

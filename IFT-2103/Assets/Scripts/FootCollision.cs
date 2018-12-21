@@ -29,11 +29,10 @@ public class FootCollision : MonoBehaviour {
         GroundCollisionSoundEffect collisionSoundEffect = other.GetComponent<GroundCollisionSoundEffect>();          
 
         if (collisionSoundEffect)                                                                         
-        {
-            GetComponent<AudioSource>().clip = collisionSoundEffect.audioClip;                                                  
+        {                               
             GetComponent<AudioSource>().volume = collisionSoundEffect.volumeModifier * baseFootAudioVolume;                           
             GetComponent<AudioSource>().pitch = Random.Range(1.0f - soundEffectPitchRandomness, 1.0f + soundEffectPitchRandomness);   
-            GetComponent<AudioSource>().Play();                                                                                     
+            GetComponent<AudioSource>().PlayOneShot(collisionSoundEffect.audioClip);                                                                                     
         }
     }
 

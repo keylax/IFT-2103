@@ -29,6 +29,7 @@ public class CharacterSoundsManager : MonoBehaviour {
 
     public void playSFX(AudioClip clip)
     {
+        audioSource.volume = gameParameters.getVolume();
         audioSource.PlayOneShot(clip);
         playingSFX = clip.name;
     }

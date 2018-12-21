@@ -15,14 +15,10 @@ namespace Invector.CharacterController
         public KeyCode jumpInput = KeyCode.Space;
         public KeyCode strafeInput = KeyCode.Tab;
         public KeyCode sprintInput = KeyCode.LeftShift;
-        public KeyCode menuInput = KeyCode.Q;
 
         [Header("Camera Settings")]
         public string rotateCameraXInput = "Mouse X";
         public string rotateCameraYInput = "Mouse Y";
-
-        [Header("InGameMenuObject")]
-        public GameObject InGameMenu;
 
         protected vThirdPersonCamera tpCamera;                // acess camera info        
         [HideInInspector]
@@ -61,21 +57,14 @@ namespace Invector.CharacterController
         protected virtual void LateUpdate()
         {
             if (cc == null) return;             // returns if didn't find the controller		    
-            InputHandle();
-            // update input methods
-            if (tpCamera.enabled)
-            {
-                UpdateCameraStates();
-            }              
+            InputHandle();                      // update input methods
+            UpdateCameraStates();               // update camera states
         }
 
         protected virtual void FixedUpdate()
         {
             cc.AirControl();
-            if (tpCamera.enabled)
-            {
-                CameraInput();
-            }
+            CameraInput();
         }
 
         protected virtual void Update()
@@ -86,12 +75,8 @@ namespace Invector.CharacterController
 
         protected virtual void InputHandle()
         {
-            CheckMenuInput();
             ExitGameInput();
-            if (tpCamera.enabled)
-            {
-                CameraInput();
-            }
+            CameraInput();
 
             if (!cc.lockMovement)
             {
@@ -102,19 +87,7 @@ namespace Invector.CharacterController
             }
         }
 
-        #region Basic Locomotion Inputs    
-        
-        protected virtual void CheckMenuInput()
-        {
-            if (Input.GetKeyDown(menuInput))
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                tpCamera.enabled = false;
-                InGameMenu.SetActive(true);
-                Time.timeScale = 0;
-            }
-        }
+        #region Basic Locomotion Inputs      
 
         protected virtual void MoveCharacter()
         {            

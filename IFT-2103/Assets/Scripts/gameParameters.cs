@@ -2,7 +2,8 @@
 
 public static class gameParameters {
 
-    private static float volume = 1;
+    private static float SFXvolume = 1;
+    private static float musicVolume = 1;
 
     public static void setQualityLevelToLow()
     {
@@ -19,13 +20,23 @@ public static class gameParameters {
         QualitySettings.SetQualityLevel(3, true);
     }
 
-    public static void setVolume(float chosenVolume)
+    public static void setSFXVolume(float chosenVolume)
     {
-        volume = chosenVolume;
+        SFXvolume = chosenVolume;
     }
 
-    public static float getVolume()
+    public static float getSFXVolume()
     {
-        return volume;
+        return SFXvolume;
+    }
+
+    public static void setMusicVolume(float chosenVolume)
+    {
+        musicVolume = chosenVolume;
+    }
+
+    public static float getMusicVolume()
+    {
+        return musicVolume;
     }
 }

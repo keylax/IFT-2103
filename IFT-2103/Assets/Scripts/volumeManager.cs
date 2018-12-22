@@ -5,9 +5,14 @@ public class volumeManager : MonoBehaviour {
 
     public Slider volumeSlider;
 
-    public void setVolume()
+    public void setMusicVolume()
     {
-        gameParameters.setVolume(volumeSlider.value);
+        gameParameters.setMusicVolume(volumeSlider.value);
+    }
+
+    public void setSFXVolume()
+    {
+        gameParameters.setSFXVolume(volumeSlider.value);
     }
 
 }

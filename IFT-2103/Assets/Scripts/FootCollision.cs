@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FootCollision : MonoBehaviour {
 
-    public float baseFootAudioVolume = 1.0f;
     public float soundEffectPitchRandomness = 0.05f;
 
 	// Use this for initialization
@@ -30,7 +29,7 @@ public class FootCollision : MonoBehaviour {
 
         if (collisionSoundEffect)                                                                         
         {                               
-            GetComponent<AudioSource>().volume = collisionSoundEffect.volumeModifier * baseFootAudioVolume;                           
+            GetComponent<AudioSource>().volume = gameParameters.getVolume();                           
             GetComponent<AudioSource>().pitch = Random.Range(1.0f - soundEffectPitchRandomness, 1.0f + soundEffectPitchRandomness);   
             GetComponent<AudioSource>().PlayOneShot(collisionSoundEffect.audioClip);                                                                                     
         }

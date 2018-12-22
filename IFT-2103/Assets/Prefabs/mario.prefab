@@ -934,6 +934,7 @@ GameObject:
   - component: {fileID: 114639129824639992}
   - component: {fileID: 114190222211864164}
   - component: {fileID: 114878025690597604}
+  - component: {fileID: 81437727800740744}
   m_Layer: 8
   m_Name: mario
   m_TagString: Player
@@ -3056,8 +3057,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1378694534769722}
-  m_LocalRotation: {x: -9.949072e-10, y: 0.0074081253, z: -0.000000010412199, w: -0.99997264}
-  m_LocalPosition: {x: 0, y: 0.187, z: 2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4053319130749400}
@@ -7309,6 +7310,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!81 &81437727800740744
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1378694534769722}
+  m_Enabled: 1
 --- !u!82 &82211085885818220
 AudioSource:
   m_ObjectHideFlags: 1

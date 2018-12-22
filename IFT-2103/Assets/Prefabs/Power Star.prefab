@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 26511311902695036}
   - component: {fileID: 12257828890785060}
   - component: {fileID: 15919440956531438}
+  - component: {fileID: 122767913513542666}
   m_Layer: 0
   m_Name: Power Star
   m_TagString: star
@@ -98,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1479749224412622}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.75, z: 11}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
   m_Children:
   - {fileID: 4240674396018942}
@@ -304,8 +305,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 1.5
-  volumeModifier: 1
   pickupClip: {fileID: 8300000, guid: 1203ecbd9223cd94fb53eaed1e69b64a, type: 3}
+--- !u!122 &122767913513542666
+Halo:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1479749224412622}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278255608
+  m_Size: 0.5
 --- !u!135 &135620853152288750
 SphereCollider:
   m_ObjectHideFlags: 1

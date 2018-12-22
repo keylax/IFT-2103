@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Invector.CharacterController;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -12,32 +13,37 @@ public class GameController : MonoBehaviour {
     public Transform wallsPrefab;
     public Transform treePrefab;
     public Transform inGameMenu;
+    public AudioClip starAppearsClip;
     public Vector2 terrainOffsets = new Vector2(100f,100f);
     public bool terrainRandomOffsets;
     public int numberOfCoins = 10;
+    private Transform player;
     private Vector2 terrainSize;
     private int numberOfCoinsLeft;
     private PoissonDiscSampler poissonDiscSampler;
     private List<Vector2> treePositions = new List<Vector2>();
+    private float[,] mapHeights;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         numberOfCoinsLeft = numberOfCoins;
         terrainSize = new Vector2(terrainPrefab.GetComponent<TerrainGeneration>().width, terrainPrefab.GetComponent<TerrainGeneration>().height);
         Transform terrain = instanciateTerrain();
         terrain.GetComponent<TerrainGeneration>().Start();
-        float[,] heights = terrain.GetComponent<TerrainGeneration>().getHeights();
+        mapHeights = terrain.GetComponent<TerrainGeneration>().getHeights();
         poissonDiscSampler = new PoissonDiscSampler(terrainSize.x, terrainSize.y, 10);
         instanciateTrees();
         instanciatePlayer();
-        instanciateCoins(numberOfCoins, heights);
+        instanciateCoins(numberOfCoins);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (numberOfCoinsLeft == 0)
         {
-
+            player.GetComponent<CharacterSoundsManager>().playSFX(starAppearsClip);
+            instanciateStar();
+            numberOfCoinsLeft = 1;
         }
 	}
 
@@ -53,25 +59,27 @@ public class GameController : MonoBehaviour {
     private void instanciatePlayer()
     {
         marioPrefab.GetComponent<vThirdPersonInput>().InGameMenu = inGameMenu.gameObject;
-        Transform playerTransform = Instantiate(marioPrefab, new Vector3(terrainSize.x / 2, 1, terrainSize.y / 2), marioPrefab.rotation);
-        playerCameraPrefab.GetComponent<vThirdPersonCamera>().SetMainTarget(playerTransform);
+        player = Instantiate(marioPrefab, new Vector3(terrainSize.x / 2, 1, terrainSize.y / 2), marioPrefab.rotation);
+        playerCameraPrefab.GetComponent<vThirdPersonCamera>().SetMainTarget(player);
         Transform cameraTransform = Instantiate(playerCameraPrefab, new Vector3(0, 0, 0), playerCameraPrefab.rotation);
     }
 
-    private void instanciateCoins(int nbrOfCoins, float[,] mapHeights)
+    private void instanciateCoins(int nbrOfCoins)
     {
         for (int i = 0; i < nbrOfCoins; i++)
         {
-            float posX = Random.Range(0, terrainSize.x);
-            float posZ = Random.Range(0, terrainSize.y);
+            float posX = Random.Range(1, terrainSize.x - 1);
+            float posZ = Random.Range(1, terrainSize.y - 1);
             Vector2 possibleCoinPosition = new Vector2(posX, posZ);
             while (!isValidCoinPosition(possibleCoinPosition))
             {
-                posX = Random.Range(0, terrainSize.x);
-                posZ = Random.Range(0, terrainSize.y);
+                posX = Random.Range(1, terrainSize.x - 1);
+                posZ = Random.Range(1, terrainSize.y - 1);
+                possibleCoinPosition = new Vector2(posX, posZ);
             }
-
-            Instantiate(coinPrefab, new Vector3(posX, mapHeights[(int)posX, (int)posZ] + 1, posZ), coinPrefab.rotation);
+          
+            Transform newCoin = Instantiate(coinPrefab, new Vector3(posX, mapHeights[(int)posX, (int)posZ] + 1, posZ), coinPrefab.rotation);
+            newCoin.GetComponent<PickupItem>().setObserver(transform);
         }
     }
 
@@ -95,8 +103,29 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    private void instanciateStar()
+    {
+        float posX = terrainSize.x / 2;
+        float posZ = terrainSize.y / 2;
+        Transform newStar = Instantiate(starPrefab, new Vector3(posX, mapHeights[(int)posX, (int)posZ] + 1, posZ), starPrefab.rotation);
+        newStar.GetComponent<PickupItem>().setObserver(transform);
+    }
+
     public void coinCollected()
     {
         numberOfCoinsLeft -= 1;
+    }
+
+    public void starCollected()
+    {
+        StartCoroutine(endGame());
+    }
+
+    private IEnumerator endGame()
+    {
+        yield return new WaitForSeconds(3);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        SceneManager.LoadScene(0);
     }
 }

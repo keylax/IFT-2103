@@ -25,6 +25,8 @@ public class GameController : MonoBehaviour {
     private PoissonDiscSampler poissonDiscSampler;
     private List<Vector2> treePositions = new List<Vector2>();
     private float[,] mapHeights;
+    private List<Transform> trees = new List<Transform>();
+    private float foleyVolume = gameParameters.getFooleysVolume();
 
     // Use this for initialization
     void Start () {
@@ -42,6 +44,11 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (foleyVolume != gameParameters.getFooleysVolume())
+        {
+            foleyVolume = gameParameters.getFooleysVolume();
+            foleyVolumeChanged(foleyVolume);
+        }
 		if (numberOfCoinsLeft == 0)
         {
             player.GetComponent<CharacterSoundsManager>().playSFX(starAppearsClip);
@@ -102,7 +109,9 @@ public class GameController : MonoBehaviour {
     {
         foreach (Vector2 sample in poissonDiscSampler.Samples()) {
             treePositions.Add(sample);
-            Instantiate(treePrefab, new Vector3(sample.x, 0, sample.y), treePrefab.rotation);
+            Transform newTree = Instantiate(treePrefab, new Vector3(sample.x, 0, sample.y), treePrefab.rotation);
+            newTree.GetComponent<AudioSource>().volume = gameParameters.getFooleysVolume();
+            trees.Add(newTree);
         }
     }
 
@@ -123,6 +132,14 @@ public class GameController : MonoBehaviour {
     public void starCollected()
     {
         StartCoroutine(endGame());
+    }
+
+    private void foleyVolumeChanged(float newVolume)
+    {
+        foreach (Transform tree in trees)
+        {
+            tree.GetComponent<AudioSource>().volume = newVolume;
+        }
     }
 
     private IEnumerator endGame()

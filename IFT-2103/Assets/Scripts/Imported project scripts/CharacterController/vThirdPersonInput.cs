@@ -38,6 +38,8 @@ namespace Invector.CharacterController
 
         protected vThirdPersonController cc;                // access the ThirdPersonController component        
 
+        private bool isMenuOpened = false;
+
         #endregion
 
         protected virtual void Start()
@@ -108,11 +110,26 @@ namespace Invector.CharacterController
         {
             if (Input.GetKeyDown(menuInput))
             {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                tpCamera.enabled = false;
-                InGameMenu.SetActive(true);
-                Time.timeScale = 0;
+                if (isMenuOpened)
+                {
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    tpCamera.enabled = true;
+                    InGameMenu.SetActive(false);
+                    Time.timeScale = 1;
+
+                    isMenuOpened = false;
+                }
+                else if (!isMenuOpened)
+                {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                    tpCamera.enabled = false;
+                    InGameMenu.SetActive(true);
+                    Time.timeScale = 0;
+
+                    isMenuOpened = true;
+                }
             }
         }
 

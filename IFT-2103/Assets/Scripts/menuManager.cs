@@ -3,8 +3,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+using Invector.CharacterController;
 public class menuManager : MonoBehaviour {
 
+    public GameObject inGameMenu;
     public GameObject loadingScreen;
     public Slider slider;
     public Text textPercentage;
@@ -32,6 +34,15 @@ public class menuManager : MonoBehaviour {
 
             yield return null;
         }
+    }
+
+    public void ResumeGame()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        vThirdPersonCamera tpCamera = FindObjectOfType<vThirdPersonCamera>();
+        tpCamera.enabled = true;
+        inGameMenu.SetActive(false);
     }
 
     public void QuitGame()

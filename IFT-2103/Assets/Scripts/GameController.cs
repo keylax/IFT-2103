@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Invector.CharacterController;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -8,6 +9,7 @@ public class GameController : MonoBehaviour {
     public Transform coinPrefab;
     public Transform starPrefab;
     public Transform terrainPrefab;
+    public Transform inGameMenu;
     public Vector2 terrainOffsets = new Vector2(100f,100f);
     public Vector2 terrainSize;
     public bool terrainRandomOffsets;
@@ -40,6 +42,7 @@ public class GameController : MonoBehaviour {
 
     private void instanciatePlayer()
     {
+        marioPrefab.GetComponent<vThirdPersonInput>().InGameMenu = inGameMenu.gameObject;
         Transform playerTransform = Instantiate(marioPrefab, new Vector3(terrainSize.x / 2, 1, terrainSize.y / 2), marioPrefab.rotation);
         playerCameraPrefab.GetComponent<vThirdPersonCamera>().SetMainTarget(playerTransform);
         Transform cameraTransform = Instantiate(playerCameraPrefab, new Vector3(0, 0, 0), playerCameraPrefab.rotation);

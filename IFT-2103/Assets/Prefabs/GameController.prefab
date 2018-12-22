@@ -59,7 +59,11 @@ MonoBehaviour:
   starPrefab: {fileID: 4989058275841858, guid: 71b78d147f0430c49acb742da92ee870, type: 2}
   terrainPrefab: {fileID: 4612487775926292, guid: 743ce6eabc58dfb449b17991b095a334,
     type: 2}
+  wallsPrefab: {fileID: 4996818694277966, guid: 856c4a6d7fe34c7429757bf0de2e0929,
+    type: 2}
+  treePrefab: {fileID: 4953104447496792, guid: 3f837923a9a10e848a7373eb3af30244, type: 2}
+  inGameMenu: {fileID: 0}
+  starAppearsClip: {fileID: 8300000, guid: cf2f484dbecd0844882603ece60dfca1, type: 3}
   terrainOffsets: {x: 100, y: 100}
-  terrainSize: {x: 0, y: 0}
   terrainRandomOffsets: 0
   numberOfCoins: 10

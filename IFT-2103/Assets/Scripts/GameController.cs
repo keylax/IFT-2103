@@ -11,10 +11,12 @@ public class GameController : MonoBehaviour {
     public Vector2 terrainOffsets = new Vector2(100f,100f);
     public Vector2 terrainSize;
     public bool terrainRandomOffsets;
-    public int numberOfCoins;
+    public int numberOfCoins = 10;
+    private int numberOfCoinsLeft;
 
 	// Use this for initialization
 	void Start () {
+        numberOfCoinsLeft = numberOfCoins;
         terrainSize = new Vector2(terrainPrefab.GetComponent<TerrainGeneration>().width, terrainPrefab.GetComponent<TerrainGeneration>().height);
         Transform terrain = instanciateTerrain();
         terrain.GetComponent<TerrainGeneration>().Start();

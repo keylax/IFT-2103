@@ -7746,7 +7746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f31b3c82ab4794459e284b4015f8fae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFootAudioVolume: 1
   soundEffectPitchRandomness: 0.05
 --- !u!114 &114871435296626808
 MonoBehaviour:
@@ -7759,7 +7758,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f31b3c82ab4794459e284b4015f8fae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFootAudioVolume: 1
   soundEffectPitchRandomness: 0.05
 --- !u!114 &114878025690597604
 MonoBehaviour:

@@ -13,10 +13,12 @@ public class GameController : MonoBehaviour {
     public Transform wallsPrefab;
     public Transform treePrefab;
     public Transform inGameMenu;
+    public Transform particlePoolPrefab;
     public AudioClip starAppearsClip;
     public Vector2 terrainOffsets = new Vector2(100f,100f);
     public bool terrainRandomOffsets;
     public int numberOfCoins = 10;
+    private Transform particlePool;
     private Transform player;
     private Vector2 terrainSize;
     private int numberOfCoinsLeft;
@@ -27,6 +29,7 @@ public class GameController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         numberOfCoinsLeft = numberOfCoins;
+        particlePool = Instantiate(particlePoolPrefab, new Vector3(100, 100, 100), particlePoolPrefab.rotation);
         terrainSize = new Vector2(terrainPrefab.GetComponent<TerrainGeneration>().width, terrainPrefab.GetComponent<TerrainGeneration>().height);
         Transform terrain = instanciateTerrain();
         terrain.GetComponent<TerrainGeneration>().Start();
@@ -108,6 +111,7 @@ public class GameController : MonoBehaviour {
         float posX = terrainSize.x / 2;
         float posZ = terrainSize.y / 2;
         Transform newStar = Instantiate(starPrefab, new Vector3(posX, mapHeights[(int)posX, (int)posZ] + 1, posZ), starPrefab.rotation);
+        particlePool.GetComponent<ParticlePool>().moveStarParticleToObject(newStar);
         newStar.GetComponent<PickupItem>().setObserver(transform);
     }
 

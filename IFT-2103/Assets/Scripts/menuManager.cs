@@ -18,8 +18,6 @@ public class menuManager : MonoBehaviour {
 
     IEnumerator LoadAsynchronously(int sceneIndex)
     {
-        Time.timeScale = 1;
-
         loadingScreen.SetActive(true);
 
         yield return new WaitForSeconds(2) ;
@@ -45,7 +43,6 @@ public class menuManager : MonoBehaviour {
         vThirdPersonCamera tpCamera = FindObjectOfType<vThirdPersonCamera>();
         tpCamera.enabled = true;
         inGameMenu.SetActive(false);
-        Time.timeScale = 1;
     }
 
     public void QuitGame()

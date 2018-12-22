@@ -116,7 +116,6 @@ namespace Invector.CharacterController
                     Cursor.lockState = CursorLockMode.Locked;
                     tpCamera.enabled = true;
                     InGameMenu.SetActive(false);
-                    Time.timeScale = 1;
 
                     isMenuOpened = false;
                 }
@@ -126,7 +125,6 @@ namespace Invector.CharacterController
                     Cursor.lockState = CursorLockMode.None;
                     tpCamera.enabled = false;
                     InGameMenu.SetActive(true);
-                    Time.timeScale = 0;
 
                     isMenuOpened = true;
                 }

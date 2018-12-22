@@ -63,6 +63,8 @@ MonoBehaviour:
     type: 2}
   treePrefab: {fileID: 4953104447496792, guid: 3f837923a9a10e848a7373eb3af30244, type: 2}
   inGameMenu: {fileID: 0}
+  particlePoolPrefab: {fileID: 4633938914745602, guid: fb40e7de9c9c3524db128dc43d9e8c6f,
+    type: 2}
   starAppearsClip: {fileID: 8300000, guid: cf2f484dbecd0844882603ece60dfca1, type: 3}
   terrainOffsets: {x: 100, y: 100}
   terrainRandomOffsets: 0

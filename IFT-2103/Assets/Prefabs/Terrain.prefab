@@ -67,8 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6d76f8ddd46bbe4abb110475f23bd87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 9490eca54781c5646a24d3934d79ba36, type: 3}
-  volumeModifier: 0
+  audioClip: {fileID: 8300000, guid: 9af9c13734c4b2e4f8b53773ece653fa, type: 3}
 --- !u!114 &114812505942756010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -86,7 +85,7 @@ MonoBehaviour:
   scale: 12
   offsetX: 100
   offsetY: 100
-  randomOffsets: 1
+  randomOffsets: 0
 --- !u!154 &154225475512845966
 TerrainCollider:
   m_ObjectHideFlags: 1

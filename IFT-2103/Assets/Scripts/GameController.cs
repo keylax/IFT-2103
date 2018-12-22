@@ -13,20 +13,25 @@ public class GameController : MonoBehaviour {
     public Transform wallsPrefab;
     public Transform treePrefab;
     public Transform inGameMenu;
+    public Transform particlePoolPrefab;
     public AudioClip starAppearsClip;
     public Vector2 terrainOffsets = new Vector2(100f,100f);
     public bool terrainRandomOffsets;
     public int numberOfCoins = 10;
+    private Transform particlePool;
     private Transform player;
     private Vector2 terrainSize;
     private int numberOfCoinsLeft;
     private PoissonDiscSampler poissonDiscSampler;
     private List<Vector2> treePositions = new List<Vector2>();
     private float[,] mapHeights;
+    private List<Transform> trees = new List<Transform>();
+    private float foleyVolume = gameParameters.getFooleysVolume();
 
     // Use this for initialization
     void Start () {
         numberOfCoinsLeft = numberOfCoins;
+        particlePool = Instantiate(particlePoolPrefab, new Vector3(100, 100, 100), particlePoolPrefab.rotation);
         terrainSize = new Vector2(terrainPrefab.GetComponent<TerrainGeneration>().width, terrainPrefab.GetComponent<TerrainGeneration>().height);
         Transform terrain = instanciateTerrain();
         terrain.GetComponent<TerrainGeneration>().Start();
@@ -39,6 +44,11 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (foleyVolume != gameParameters.getFooleysVolume())
+        {
+            foleyVolume = gameParameters.getFooleysVolume();
+            foleyVolumeChanged(foleyVolume);
+        }
 		if (numberOfCoinsLeft == 0)
         {
             player.GetComponent<CharacterSoundsManager>().playSFX(starAppearsClip);
@@ -99,7 +109,9 @@ public class GameController : MonoBehaviour {
     {
         foreach (Vector2 sample in poissonDiscSampler.Samples()) {
             treePositions.Add(sample);
-            Instantiate(treePrefab, new Vector3(sample.x, 0, sample.y), treePrefab.rotation);
+            Transform newTree = Instantiate(treePrefab, new Vector3(sample.x, 0, sample.y), treePrefab.rotation);
+            newTree.GetComponent<AudioSource>().volume = gameParameters.getFooleysVolume();
+            trees.Add(newTree);
         }
     }
 
@@ -108,6 +120,7 @@ public class GameController : MonoBehaviour {
         float posX = terrainSize.x / 2;
         float posZ = terrainSize.y / 2;
         Transform newStar = Instantiate(starPrefab, new Vector3(posX, mapHeights[(int)posX, (int)posZ] + 1, posZ), starPrefab.rotation);
+        particlePool.GetComponent<ParticlePool>().moveStarParticleToObject(newStar);
         newStar.GetComponent<PickupItem>().setObserver(transform);
     }
 
@@ -119,6 +132,14 @@ public class GameController : MonoBehaviour {
     public void starCollected()
     {
         StartCoroutine(endGame());
+    }
+
+    private void foleyVolumeChanged(float newVolume)
+    {
+        foreach (Transform tree in trees)
+        {
+            tree.GetComponent<AudioSource>().volume = newVolume;
+        }
     }
 
     private IEnumerator endGame()

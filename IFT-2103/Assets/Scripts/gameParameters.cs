@@ -4,6 +4,7 @@ public static class gameParameters {
 
     private static float SFXvolume = 1;
     private static float musicVolume = 1;
+    private static float fooleyVolume = 1;
 
     public static void setQualityLevelToLow()
     {
@@ -39,4 +40,16 @@ public static class gameParameters {
     {
         return musicVolume;
     }
+
+    public static void setFooleysVolume(float chosenVolume)
+    {
+        fooleyVolume = chosenVolume;
+    }
+
+    public static float getFooleysVolume()
+    {
+        return fooleyVolume;
+    }
+
+
 }

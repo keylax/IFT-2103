@@ -917,6 +917,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1254392783}
+        m_MethodName: Out
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &642422569
@@ -2785,6 +2796,7 @@ GameObject:
   - component: {fileID: 1254392781}
   - component: {fileID: 1254392780}
   - component: {fileID: 1254392782}
+  - component: {fileID: 1254392783}
   m_Layer: 0
   m_Name: GameBackgroundMusic
   m_TagString: Untagged
@@ -2801,8 +2813,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 649445498620c94409afa3bffc628be8, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 24957ee479f04b646a863448fa6b301f, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -2911,6 +2923,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccea45fefb4b3c45a028eecd8817d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1254392783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1254392779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b3566f59e75de34aacb7fe4264bddb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finalAudioClip: {fileID: 8300000, guid: d623009e9d3bbe64aa726678d3db1389, type: 3}
 --- !u!1 &1263937315
 GameObject:
   m_ObjectHideFlags: 0

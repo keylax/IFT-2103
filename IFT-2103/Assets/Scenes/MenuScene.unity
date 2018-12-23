@@ -1585,6 +1585,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1942669976}
+        m_MethodName: Out
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &253591411
@@ -10864,6 +10875,7 @@ GameObject:
   - component: {fileID: 1942669974}
   - component: {fileID: 1942669973}
   - component: {fileID: 1942669975}
+  - component: {fileID: 1942669976}
   m_Layer: 0
   m_Name: MenuBackgroundMusic
   m_TagString: Untagged
@@ -10880,9 +10892,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a253e910d92befc4aab175d6a8f00353, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.7
+  m_audioClip: {fileID: 8300000, guid: 85a5e3ce7818e224cbbf13ff154721ec, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -10990,6 +11002,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccea45fefb4b3c45a028eecd8817d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1942669976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1942669972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b3566f59e75de34aacb7fe4264bddb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finalAudioClip: {fileID: 8300000, guid: d623009e9d3bbe64aa726678d3db1389, type: 3}
 --- !u!1 &1955791597
 GameObject:
   m_ObjectHideFlags: 0

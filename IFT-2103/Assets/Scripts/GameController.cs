@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour {
     public Transform inGameMenu;
     public Transform particlePoolPrefab;
     public AudioClip starAppearsClip;
+    public AudioSource gameAudioSource;
     public Vector2 terrainOffsets = new Vector2(100f,100f);
     public bool terrainRandomOffsets;
     public int numberOfCoins = 10;
@@ -54,6 +55,9 @@ public class GameController : MonoBehaviour {
             player.GetComponent<CharacterSoundsManager>().playSFX(starAppearsClip);
             instanciateStar();
             numberOfCoinsLeft = 1;
+
+            GameObject musicControllerGameObject = GameObject.Find("GameBackgroundMusic");
+            musicControllerGameObject.GetComponent<crossOverMusic>().playFinalSong();
         }
 	}
 
@@ -144,7 +148,11 @@ public class GameController : MonoBehaviour {
 
     private IEnumerator endGame()
     {
+        GameObject musicControllerGameObject = GameObject.Find("GameBackgroundMusic");
+        musicControllerGameObject.GetComponent<crossOverMusic>().Out();
+
         yield return new WaitForSeconds(3);
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene(0);
